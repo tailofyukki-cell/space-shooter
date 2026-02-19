@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Space Shooter - 横スクロールシューティング</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="game-container">
+        <canvas id="gameCanvas"></canvas>
+        
+        <!-- タイトル画面 -->
+        <div id="title-screen" class="screen">
+            <h1>SPACE SHOOTER</h1>
+            <p class="subtitle">横スクロールシューティング</p>
+            <button id="start-button" class="btn">START</button>
+            <div class="controls">
+                <h3>操作方法</h3>
+                <p><strong>PC:</strong> W/A/S/D または ↑↓←→ で移動、Space でショット</p>
+                <p><strong>スマホ:</strong> 画面ドラッグで移動、タップでショット</p>
+            </div>
+        </div>
+        
+        <!-- ゲーム画面UI -->
+        <div id="game-ui" class="screen hidden">
+            <div class="hud">
+                <div class="hud-item">
+                    <span class="label">SCORE:</span>
+                    <span id="score">0</span>
+                </div>
+                <div class="hud-item">
+                    <span class="label">LIFE:</span>
+                    <span id="life">3</span>
+                </div>
+                <div class="hud-item">
+                    <span class="label">TIME:</span>
+                    <span id="time">0</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 結果画面 -->
+        <div id="result-screen" class="screen hidden">
+            <h1 id="result-title">GAME OVER</h1>
+            <div class="result-info">
+                <p>FINAL SCORE: <span id="final-score">0</span></p>
+            </div>
+            <button id="retry-button" class="btn">RETRY</button>
+            <button id="title-button" class="btn btn-secondary">TITLE</button>
+        </div>
+    </div>
+    
+    <script src="main.js"></script>
+</body>
+</html>
