@@ -42,7 +42,7 @@
 ## 🌐 公開URL
 
 GitHub Pagesで公開中:
-**https://[ユーザー名].github.io/space-shooter/**
+**https://tailofyukki-cell.github.io/space-shooter/**
 
 ## 🚀 ローカル実行方法
 
