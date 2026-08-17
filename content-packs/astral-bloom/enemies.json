@@ -1,0 +1,56 @@
+{
+  "fairy_scout": {
+    "kind": "enemy",
+    "name": "スカウト・フェアリー",
+    "hp": 18,
+    "hitboxRadius": 15,
+    "collisionRadius": 18,
+    "score": 500,
+    "color": "#ff6f91",
+    "movement": {
+      "type": "line",
+      "velocity": [0, 92],
+      "duration": 5.5
+    },
+    "patterns": ["fairy_fan"]
+  },
+  "fairy_spinner": {
+    "kind": "enemy",
+    "name": "スピナー・フェアリー",
+    "hp": 28,
+    "hitboxRadius": 16,
+    "collisionRadius": 20,
+    "score": 800,
+    "color": "#8ca8ff",
+    "movement": {
+      "type": "sine",
+      "velocity": [0, 72],
+      "amplitude": 110,
+      "frequency": 1.4,
+      "duration": 6.0
+    },
+    "patterns": ["fairy_ring"]
+  },
+  "boss_demo": {
+    "kind": "boss",
+    "name": "デモ・ガーディアン",
+    "hp": 720,
+    "hitboxRadius": 42,
+    "collisionRadius": 50,
+    "score": 40000,
+    "color": "#d89aff",
+    "movement": {
+      "type": "hover",
+      "target": [270, 150],
+      "duration": 999
+    },
+    "phases": [
+      {
+        "name": "星彩の輪舞",
+        "hp": 720,
+        "timeLimit": 45,
+        "patterns": ["boss_spiral", "boss_aimed_fan"]
+      }
+    ]
+  }
+}

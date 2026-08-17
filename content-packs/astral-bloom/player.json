@@ -1,0 +1,44 @@
+{
+  "pilot_demo": {
+    "id": "pilot_demo",
+    "name": "テストパイロット",
+    "hitboxRadius": 3,
+    "pickupRadius": 28,
+    "moveSpeed": 300,
+    "focusSpeed": 145,
+    "lives": 3,
+    "bombs": 3,
+    "respawnInvincibility": 2.0,
+    "shots": [
+      {
+        "bullet": "player_needle",
+        "offsetX": 0,
+        "offsetY": -22,
+        "interval": 0.075,
+        "angle": -90,
+        "speed": 820,
+        "damage": 3
+      }
+    ],
+    "focusShots": [
+      {
+        "bullet": "player_needle",
+        "offsetX": -14,
+        "offsetY": -22,
+        "interval": 0.075,
+        "angle": -90,
+        "speed": 860,
+        "damage": 3
+      },
+      {
+        "bullet": "player_needle",
+        "offsetX": 14,
+        "offsetY": -22,
+        "interval": 0.075,
+        "angle": -90,
+        "speed": 860,
+        "damage": 3
+      }
+    ]
+  }
+}

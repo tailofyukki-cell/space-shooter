@@ -7,6 +7,7 @@ import { Renderer } from './render/Renderer.js';
 
 const STEP_SECONDS = 1 / 60;
 const MAX_FRAME_SECONDS = 0.12;
+const PACK_ID_PATTERN = /^[a-z0-9][a-z0-9-]*$/;
 
 const elements = {
   canvas: document.querySelector('#game-canvas'),
@@ -53,10 +54,28 @@ function hideTransientScreens() {
   setHidden(elements.announcement, true);
 }
 
+async function loadActiveGamePack() {
+  const response = await fetch('./content-packs/active-pack.json');
+  if (!response.ok) throw new Error('有効なコンテンツパック設定を読み込めませんでした。');
+
+  const selection = await response.json();
+  const packId = selection.active;
+  if (!PACK_ID_PATTERN.test(packId)) throw new Error('コンテンツパックIDの形式が不正です。');
+
+  try {
+    return await new GameDataLoader(`./content-packs/${packId}/`).load();
+  } catch (error) {
+    const fallbackId = selection.fallback;
+    if (!PACK_ID_PATTERN.test(fallbackId) || fallbackId === packId) throw error;
+    console.warn(`コンテンツパック「${packId}」を読み込めないため、予備パックを使用します。`, error);
+    return new GameDataLoader(`./content-packs/${fallbackId}/`).load();
+  }
+}
+
 async function bootstrap() {
   try {
     elements.loadingMessage.textContent = 'ゲームパックを読み込んでいます。';
-    const data = await new GameDataLoader('./game-data/').load();
+    const data = await loadActiveGamePack();
     const settingsStore = new SettingsStore(data.manifest.id);
     const settings = settingsStore.get();
     const input = new InputManager(window, settings.bindings);

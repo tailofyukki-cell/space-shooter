@@ -1,0 +1,34 @@
+{
+  "id": "com.tailofyukki.danmaku-engine-demo",
+  "title": "DANMAKU ENGINE DEMO",
+  "version": "0.1.0",
+  "locale": "ja",
+  "display": {
+    "width": 1280,
+    "height": 720,
+    "fieldWidth": 540,
+    "fieldHeight": 720
+  },
+  "entryStage": "stage_demo_01",
+  "defaultPlayer": "pilot_demo",
+  "dataFiles": {
+    "player": "player.json",
+    "bullets": "bullets.json",
+    "enemies": "enemies.json",
+    "patterns": "patterns.json",
+    "text": "text/ja.json"
+  },
+  "stages": [
+    "stages/stage_demo_01.json"
+  ],
+  "assets": {
+    "bgm_stage": "assets/audio/bgm/stage-demo.ogg",
+    "bgm_boss": "assets/audio/bgm/boss-demo.ogg",
+    "se_shot": "assets/audio/se/shot.ogg",
+    "se_enemy_shot": "assets/audio/se/enemy-shot.ogg",
+    "se_hit": "assets/audio/se/hit.ogg",
+    "se_explosion": "assets/audio/se/explosion.ogg",
+    "se_graze": "assets/audio/se/graze.ogg",
+    "se_bomb": "assets/audio/se/bomb.ogg"
+  }
+}
