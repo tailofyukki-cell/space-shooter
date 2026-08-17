@@ -5,14 +5,14 @@
     "events": [
       {
         "at": 0.5,
-        "repeat": 5,
-        "interval": 0.44,
+        "repeat": 3,
+        "interval": 0.62,
         "action": "fan",
         "bullet": "petal_orb",
-        "count": 5,
+        "count": 3,
         "angle": 90,
-        "spread": 68,
-        "speed": 142,
+        "spread": 56,
+        "speed": 124,
         "sound": "se_petal_fire"
       }
     ]
@@ -23,13 +23,13 @@
     "events": [
       {
         "at": 0.65,
-        "repeat": 4,
-        "interval": 0.55,
+        "repeat": 3,
+        "interval": 0.82,
         "action": "ring",
         "bullet": "petal_orb",
-        "count": 12,
-        "angle": 15,
-        "speed": 132,
+        "count": 8,
+        "angle": 22,
+        "speed": 112,
         "sound": "se_petal_fire"
       }
     ]
@@ -40,14 +40,14 @@
     "events": [
       {
         "at": 0.9,
-        "repeat": 5,
-        "interval": 0.7,
+        "repeat": 4,
+        "interval": 0.82,
         "action": "fan",
         "bullet": "coral_seed",
         "count": 3,
         "aimAtPlayer": true,
-        "spread": 26,
-        "speed": 194,
+        "spread": 24,
+        "speed": 174,
         "sound": "se_petal_fire"
       }
     ]
@@ -58,14 +58,14 @@
     "events": [
       {
         "at": 0.25,
-        "repeat": 24,
-        "interval": 0.15,
+        "repeat": 18,
+        "interval": 0.19,
         "action": "spiral",
         "bullet": "vine_needle",
         "count": 1,
         "angle": 45,
-        "rotation": 17,
-        "speed": 165,
+        "rotation": 16,
+        "speed": 152,
         "sound": "se_petal_fire"
       }
     ]
