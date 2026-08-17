@@ -1,0 +1,52 @@
+name: Build Windows Release Candidate
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: read
+
+jobs:
+  build-windows:
+    name: Windows x64 package
+    runs-on: windows-latest
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 11
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Validate game engine
+        run: |
+          pnpm run check
+          pnpm run test:smoke
+          pnpm run test:settings
+
+      - name: Build Windows installer and portable edition
+        run: pnpm run build:win
+
+      - name: Upload Windows release candidate
+        uses: actions/upload-artifact@v4
+        with:
+          name: Danmaku-Engine-Demo-Windows-x64
+          path: |
+            release/*-win-x64-setup.exe
+            release/*-win-x64-portable.exe
+            release/*.yml
+          if-no-files-found: error
+          retention-days: 30

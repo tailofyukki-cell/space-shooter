@@ -3,12 +3,67 @@
   "version": "0.1.0",
   "private": true,
   "description": "Data-driven reusable danmaku shooting game framework",
+  "productName": "Danmaku Engine Demo",
+  "desktopName": "danmaku-engine-demo",
+  "author": "Manus AI",
+  "main": "electron/main.cjs",
   "type": "module",
   "scripts": {
-    "check": "node --check src/main.js && node --check src/core/InputManager.js && node --check src/content/GameDataLoader.js && node --check src/gameplay/GameWorld.js && node --check src/gameplay/PatternRunner.js && node --check src/render/Renderer.js",
+    "check": "node --check src/main.js && node --check src/core/AudioManager.js && node --check src/core/InputManager.js && node --check src/core/SettingsStore.js && node --check src/content/GameDataLoader.js && node --check src/gameplay/GameWorld.js && node --check src/gameplay/PatternRunner.js && node --check src/render/Renderer.js && node --check electron/main.cjs",
     "test:smoke": "node tests/world-smoke.test.js",
     "test:settings": "node tests/settings-store.test.js",
-    "serve": "python3 -m http.server 4173"
+    "serve": "python3 -m http.server 4173",
+    "desktop:dev": "electron .",
+    "build:win": "electron-builder --win nsis portable --x64",
+    "build:linux": "electron-builder --linux AppImage --x64"
+  },
+  "build": {
+    "appId": "com.tailofyukki.danmakuenginedemo",
+    "productName": "Danmaku Engine Demo",
+    "copyright": "Copyright © 2026 Manus AI",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "index.html",
+      "styles.css",
+      "src/**/*",
+      "game-data/**/*",
+      "assets/**/*",
+      "electron/**/*",
+      "package.json"
+    ],
+    "asar": true,
+    "win": {
+      "icon": "build/icon.ico",
+      "target": [
+        "nsis",
+        "portable"
+      ]
+    },
+    "nsis": {
+      "artifactName": "${productName}-${version}-win-${arch}-setup.${ext}",
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    },
+    "portable": {
+      "artifactName": "${productName}-${version}-win-${arch}-portable.${ext}"
+    },
+    "linux": {
+      "icon": "build/icon.png",
+      "syncDesktopName": true,
+      "target": [
+        "AppImage"
+      ],
+      "category": "Game",
+      "artifactName": "${productName}-${version}-linux-${arch}.${ext}"
+    }
+  },
+  "devDependencies": {
+    "electron": "^39.2.7",
+    "electron-builder": "^26.7.0"
   },
   "license": "MIT"
 }
