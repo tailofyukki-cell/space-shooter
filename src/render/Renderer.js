@@ -5,12 +5,13 @@ export class Renderer {
     this.canvas = canvas;
     this.ctx = canvas.getContext('2d', { alpha: false });
     this.display = data.manifest.display;
+    this.scrollAxis = data.manifest.gameplay?.scrollAxis ?? 'vertical';
     this.brandTitle = data.manifest.title;
     this.brandSubtitle = data.text['game.subtitle'] ?? data.manifest.version;
     this.canvas.width = this.display.width;
     this.canvas.height = this.display.height;
     this.fieldX = (this.display.width - this.display.fieldWidth) / 2;
-    this.fieldY = 0;
+    this.fieldY = (this.display.height - this.display.fieldHeight) / 2;
     this.stars = [];
     this.particles = [];
     this.seedStars();
@@ -29,10 +30,18 @@ export class Renderer {
 
   update(dt) {
     for (const star of this.stars) {
-      star.y += star.speed * dt;
-      if (star.y > this.display.fieldHeight + 5) {
-        star.y = -5;
-        star.x = (star.x * 73.17 + 211) % this.display.fieldWidth;
+      if (this.scrollAxis === 'horizontal') {
+        star.x -= star.speed * dt;
+        if (star.x < -5) {
+          star.x = this.display.fieldWidth + 5;
+          star.y = (star.y * 71.23 + 137) % this.display.fieldHeight;
+        }
+      } else {
+        star.y += star.speed * dt;
+        if (star.y > this.display.fieldHeight + 5) {
+          star.y = -5;
+          star.x = (star.x * 73.17 + 211) % this.display.fieldWidth;
+        }
       }
     }
     for (const particle of this.particles) {
@@ -206,15 +215,23 @@ export class Renderer {
     ctx.strokeStyle = '#ffffff';
     ctx.lineWidth = 2;
     ctx.beginPath();
-    ctx.moveTo(0, -25);
-    ctx.lineTo(-16, 17);
-    ctx.lineTo(0, 11);
-    ctx.lineTo(16, 17);
+    if (this.scrollAxis === 'horizontal') {
+      ctx.moveTo(27, 0);
+      ctx.lineTo(-16, -15);
+      ctx.lineTo(-7, 0);
+      ctx.lineTo(-16, 15);
+    } else {
+      ctx.moveTo(0, -25);
+      ctx.lineTo(-16, 17);
+      ctx.lineTo(0, 11);
+      ctx.lineTo(16, 17);
+    }
     ctx.closePath();
     ctx.fill();
     ctx.stroke();
     ctx.fillStyle = '#1d6cf2';
-    ctx.fillRect(-4, -6, 8, 18);
+    if (this.scrollAxis === 'horizontal') ctx.fillRect(-8, -4, 18, 8);
+    else ctx.fillRect(-4, -6, 8, 18);
 
     if (player.focused) {
       ctx.shadowBlur = 0;

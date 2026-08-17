@@ -8,8 +8,9 @@ export class Player {
   }
 
   reset() {
-    this.x = this.bounds.width / 2;
-    this.y = this.bounds.height - 104;
+    const [spawnX, spawnY] = this.definition.spawn ?? [this.bounds.width / 2, this.bounds.height - 104];
+    this.x = clamp(spawnX, 18, this.bounds.width - 18);
+    this.y = clamp(spawnY, 28, this.bounds.height - 24);
     this.lives = this.definition.lives;
     this.bombs = this.definition.bombs;
     this.score = 0;

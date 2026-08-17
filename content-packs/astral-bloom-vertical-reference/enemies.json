@@ -9,8 +9,8 @@
     "color": "#ff89bd",
     "movement": {
       "type": "line",
-      "velocity": [-132, 0],
-      "duration": 4.35
+      "velocity": [0, 86],
+      "duration": 5.7
     },
     "patterns": ["pollen_fan"]
   },
@@ -24,11 +24,10 @@
     "color": "#c58aff",
     "movement": {
       "type": "sine",
-      "velocity": [-105, 0],
-      "amplitude": 86,
-      "frequency": 0.72,
-      "sineAxis": "vertical",
-      "duration": 4.9
+      "velocity": [0, 68],
+      "amplitude": 105,
+      "frequency": 1.25,
+      "duration": 6.4
     },
     "patterns": ["petal_ring"]
   },
@@ -42,8 +41,8 @@
     "color": "#72dff0",
     "movement": {
       "type": "hover",
-      "target": [735, 270],
-      "duration": 11.0
+      "target": [270, 155],
+      "duration": 9.0
     },
     "patterns": ["gardener_aimed_seed", "gardener_vine_spiral"]
   },
@@ -57,7 +56,7 @@
     "color": "#f69ce8",
     "movement": {
       "type": "hover",
-      "target": [735, 270],
+      "target": [270, 142],
       "duration": 999
     },
     "phases": [

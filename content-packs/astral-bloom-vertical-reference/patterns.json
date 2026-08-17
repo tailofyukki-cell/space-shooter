@@ -1,153 +1,153 @@
 {
   "pollen_fan": {
     "loop": true,
-    "duration": 3.1,
+    "duration": 2.9,
     "events": [
       {
-        "at": 0.55,
+        "at": 0.5,
         "repeat": 3,
-        "interval": 0.68,
+        "interval": 0.62,
         "action": "fan",
         "bullet": "petal_orb",
         "count": 3,
-        "angle": 180,
-        "spread": 48,
-        "speed": 138,
+        "angle": 90,
+        "spread": 56,
+        "speed": 124,
         "sound": "se_petal_fire"
       }
     ]
   },
   "petal_ring": {
     "loop": true,
-    "duration": 3.3,
+    "duration": 3.1,
     "events": [
       {
-        "at": 0.7,
+        "at": 0.65,
         "repeat": 3,
-        "interval": 0.9,
+        "interval": 0.82,
         "action": "ring",
         "bullet": "petal_orb",
         "count": 8,
-        "angle": 0,
-        "speed": 118,
+        "angle": 22,
+        "speed": 112,
         "sound": "se_petal_fire"
       }
     ]
   },
   "gardener_aimed_seed": {
     "loop": true,
-    "duration": 4.4,
+    "duration": 4.2,
     "events": [
       {
-        "at": 0.95,
-        "repeat": 3,
-        "interval": 0.98,
+        "at": 0.9,
+        "repeat": 4,
+        "interval": 0.82,
         "action": "fan",
         "bullet": "coral_seed",
         "count": 3,
         "aimAtPlayer": true,
-        "spread": 22,
-        "speed": 166,
+        "spread": 24,
+        "speed": 174,
         "sound": "se_petal_fire"
       }
     ]
   },
   "gardener_vine_spiral": {
     "loop": true,
-    "duration": 4.7,
+    "duration": 4.5,
     "events": [
       {
-        "at": 0.3,
-        "repeat": 14,
-        "interval": 0.24,
+        "at": 0.25,
+        "repeat": 18,
+        "interval": 0.19,
         "action": "spiral",
         "bullet": "vine_needle",
         "count": 1,
-        "angle": 180,
-        "rotation": 15,
-        "speed": 142,
+        "angle": 45,
+        "rotation": 16,
+        "speed": 152,
         "sound": "se_petal_fire"
       }
     ]
   },
   "flora_petal_crown": {
     "loop": true,
-    "duration": 5.4,
+    "duration": 5.2,
     "events": [
       {
-        "at": 0.4,
-        "repeat": 28,
-        "interval": 0.15,
+        "at": 0.35,
+        "repeat": 30,
+        "interval": 0.14,
         "action": "spiral",
         "bullet": "petal_orb",
         "count": 2,
-        "angle": 180,
-        "rotation": 12,
-        "speed": 150,
+        "angle": 0,
+        "rotation": 13,
+        "speed": 146,
         "sound": "se_petal_fire"
       },
       {
-        "at": 1.25,
+        "at": 1.1,
         "repeat": 3,
-        "interval": 1.3,
+        "interval": 1.25,
         "action": "ring",
         "bullet": "core_bloom",
-        "count": 12,
+        "count": 14,
         "angle": 0,
-        "speed": 126,
+        "speed": 122,
         "sound": "se_petal_fire"
       }
     ]
   },
   "flora_seed_fan": {
     "loop": true,
-    "duration": 5.0,
+    "duration": 4.8,
     "events": [
       {
-        "at": 0.85,
-        "repeat": 5,
-        "interval": 0.74,
+        "at": 0.8,
+        "repeat": 6,
+        "interval": 0.65,
         "action": "fan",
         "bullet": "coral_seed",
-        "count": 5,
+        "count": 7,
         "aimAtPlayer": true,
-        "spread": 38,
-        "speed": 196,
+        "spread": 48,
+        "speed": 205,
         "sound": "se_petal_fire"
       }
     ]
   },
   "flora_vine_spiral": {
     "loop": true,
-    "duration": 6.0,
+    "duration": 5.8,
     "events": [
       {
-        "at": 0.3,
-        "repeat": 30,
-        "interval": 0.14,
+        "at": 0.25,
+        "repeat": 34,
+        "interval": 0.13,
         "action": "spiral",
         "bullet": "vine_needle",
         "count": 2,
         "angle": 180,
-        "rotation": -14,
-        "speed": 176,
+        "rotation": -15,
+        "speed": 174,
         "sound": "se_petal_fire"
       }
     ]
   },
   "flora_core_ring": {
     "loop": true,
-    "duration": 6.2,
+    "duration": 6.0,
     "events": [
       {
-        "at": 0.75,
+        "at": 0.7,
         "repeat": 4,
-        "interval": 1.15,
+        "interval": 1.1,
         "action": "ring",
         "bullet": "core_bloom",
-        "count": 16,
-        "angle": 0,
-        "speed": 142,
+        "count": 18,
+        "angle": 10,
+        "speed": 138,
         "sound": "se_petal_fire"
       }
     ]

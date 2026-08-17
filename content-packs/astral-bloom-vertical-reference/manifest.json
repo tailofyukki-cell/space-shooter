@@ -1,18 +1,13 @@
 {
   "id": "com.tailofyukki.astral-bloom",
   "title": "ASTRAL BLOOM",
-  "version": "0.2.0-horizontal-prototype",
+  "version": "0.1.0-prototype",
   "locale": "ja",
   "display": {
     "width": 1280,
     "height": 720,
-    "fieldWidth": 960,
-    "fieldHeight": 540
-  },
-  "gameplay": {
-    "scrollAxis": "horizontal",
-    "playerSpawn": [118, 270],
-    "cameraFlow": "rightToLeft"
+    "fieldWidth": 540,
+    "fieldHeight": 720
   },
   "entryStage": "stage_glassrain_01",
   "defaultPlayer": "cadenza_7",

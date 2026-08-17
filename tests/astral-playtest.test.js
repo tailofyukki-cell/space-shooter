@@ -28,21 +28,38 @@ const input = {
   getMoveVector: () => {
     if (!world) return { x: 0, y: 0 };
     const player = world.player;
-    const lanes = [-120, -60, 0, 60, 120]
-      .map((offset) => Math.max(22, Math.min(world.bounds.width - 22, player.x + offset)));
-    const enemyBullets = world.bullets.filter((bullet) => bullet.team === 'enemy' && bullet.y > player.y - 230 && bullet.y < player.y + 90);
-    const safestLane = lanes.reduce((best, lane) => {
+    const candidates = [-48, 0, 48].flatMap((offsetX) => [-140, -70, 0, 70, 140].map((offsetY) => ({
+      x: Math.max(58, Math.min(world.bounds.width * 0.46, player.x + offsetX)),
+      y: Math.max(36, Math.min(world.bounds.height - 36, player.y + offsetY)),
+    })));
+    const enemyBullets = world.bullets.filter((bullet) => bullet.team === 'enemy' && bullet.x > player.x - 80 && bullet.x < player.x + 320);
+    const safest = candidates.reduce((best, candidate) => {
       const risk = enemyBullets.reduce((total, bullet) => {
-        const distance = Math.abs(bullet.x - lane);
-        return total + 1 / Math.max(900, distance * distance);
+        const dx = bullet.x - candidate.x;
+        const dy = bullet.y - candidate.y;
+        return total + 1 / Math.max(1800, dx * dx + dy * dy);
       }, 0);
-      return risk < best.risk ? { lane, risk } : best;
-    }, { lane: player.x, risk: Infinity }).lane;
-    return { x: Math.sign(safestLane - player.x), y: 0 };
+      const movementCost = Math.hypot(candidate.x - player.x, candidate.y - player.y) * 0.000002;
+      const score = risk + movementCost;
+      return score < best.score ? { candidate, score } : best;
+    }, { candidate: { x: player.x, y: player.y }, score: Infinity }).candidate;
+    const dx = safest.x - player.x;
+    const dy = safest.y - player.y;
+    const length = Math.hypot(dx, dy) || 1;
+    return { x: dx / length, y: dy / length };
   },
 };
 
 world = new GameWorld(data);
+const hitLog = [];
+world.on('playerHit', () => {
+  hitLog.push({
+    time: Number(elapsed.toFixed(2)),
+    x: Number(world.player.x.toFixed(1)),
+    y: Number(world.player.y.toFixed(1)),
+    bullets: world.bullets.filter((bullet) => bullet.team === 'enemy').length,
+  });
+});
 world.startStage(manifest.entryStage);
 let maxEnemyBullets = 0;
 let sawGardener = false;
@@ -62,7 +79,7 @@ for (let frame = 0; frame < 52 * 60; frame += 1) {
 assert.notEqual(
   world.state,
   'gameover',
-  `第1ステージ前半は基本的な移動・ショット・ボムで継続できること (time=${elapsed.toFixed(1)}, lives=${world.player.lives}, bullets=${maxEnemyBullets}, score=${world.player.score})`,
+  `第1ステージ前半は基本的な移動・ショット・ボムで継続できること (time=${elapsed.toFixed(1)}, lives=${world.player.lives}, bullets=${maxEnemyBullets}, score=${world.player.score}, hits=${JSON.stringify(hitLog)})`,
 );
 assert.ok(sawGardener, '結晶温室区間で結晶ガーデナーが出現すること');
 assert.ok(sawScore, '通常敵を撃破してスコアを得られること');

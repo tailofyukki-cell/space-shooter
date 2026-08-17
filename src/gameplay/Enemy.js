@@ -38,8 +38,14 @@ export class Enemy {
       const [vx, vy] = movement.velocity ?? [0, 0];
       const amplitude = movement.amplitude ?? 60;
       const frequency = movement.frequency ?? 1;
-      this.x = this.startX + Math.sin(this.age * frequency * Math.PI * 2) * amplitude + vx * this.age;
-      this.y = this.startY + vy * this.age;
+      const offset = Math.sin(this.age * frequency * Math.PI * 2) * amplitude;
+      if (movement.sineAxis === 'vertical') {
+        this.x = this.startX + vx * this.age;
+        this.y = this.startY + offset + vy * this.age;
+      } else {
+        this.x = this.startX + offset + vx * this.age;
+        this.y = this.startY + vy * this.age;
+      }
     } else if (movement.type === 'hover') {
       const [targetX, targetY] = movement.target ?? [bounds.width / 2, 120];
       const travel = clamp(this.age / 1.1, 0, 1);

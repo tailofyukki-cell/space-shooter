@@ -1,0 +1,62 @@
+{
+  "cadenza_starlance": {
+    "team": "player",
+    "shape": "needle",
+    "radius": 4,
+    "hitboxRadius": 3,
+    "color": "#78f7ff",
+    "glowColor": "#e6ffff",
+    "speed": 900,
+    "damage": 4,
+    "cancelable": false,
+    "graze": false
+  },
+  "petal_orb": {
+    "team": "enemy",
+    "shape": "orb",
+    "radius": 9,
+    "hitboxRadius": 4,
+    "color": "#ff5db8",
+    "glowColor": "#ffd0ea",
+    "speed": 148,
+    "damage": 1,
+    "cancelable": true,
+    "graze": true
+  },
+  "coral_seed": {
+    "team": "enemy",
+    "shape": "orb",
+    "radius": 8,
+    "hitboxRadius": 4,
+    "color": "#ff8a83",
+    "glowColor": "#ffe0c9",
+    "speed": 182,
+    "damage": 1,
+    "cancelable": true,
+    "graze": true
+  },
+  "vine_needle": {
+    "team": "enemy",
+    "shape": "needle",
+    "radius": 13,
+    "hitboxRadius": 4,
+    "color": "#c47dff",
+    "glowColor": "#edd8ff",
+    "speed": 222,
+    "damage": 1,
+    "cancelable": true,
+    "graze": true
+  },
+  "core_bloom": {
+    "team": "enemy",
+    "shape": "orb",
+    "radius": 12,
+    "hitboxRadius": 5,
+    "color": "#ef74ff",
+    "glowColor": "#ffe2ff",
+    "speed": 128,
+    "damage": 1,
+    "cancelable": true,
+    "graze": true
+  }
+}
