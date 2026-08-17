@@ -1,55 +1,76 @@
 {
-  "fairy_scout": {
+  "pollen_scout": {
     "kind": "enemy",
-    "name": "スカウト・フェアリー",
-    "hp": 18,
+    "name": "花粉偵察機",
+    "hp": 20,
     "hitboxRadius": 15,
     "collisionRadius": 18,
-    "score": 500,
-    "color": "#ff6f91",
+    "score": 700,
+    "color": "#ff89bd",
     "movement": {
       "type": "line",
-      "velocity": [0, 92],
-      "duration": 5.5
+      "velocity": [0, 86],
+      "duration": 5.7
     },
-    "patterns": ["fairy_fan"]
+    "patterns": ["pollen_fan"]
   },
-  "fairy_spinner": {
+  "petal_wisp": {
     "kind": "enemy",
-    "name": "スピナー・フェアリー",
-    "hp": 28,
+    "name": "花弁精霊",
+    "hp": 34,
     "hitboxRadius": 16,
     "collisionRadius": 20,
-    "score": 800,
-    "color": "#8ca8ff",
+    "score": 1100,
+    "color": "#c58aff",
     "movement": {
       "type": "sine",
-      "velocity": [0, 72],
-      "amplitude": 110,
-      "frequency": 1.4,
-      "duration": 6.0
+      "velocity": [0, 68],
+      "amplitude": 105,
+      "frequency": 1.25,
+      "duration": 6.4
     },
-    "patterns": ["fairy_ring"]
+    "patterns": ["petal_ring"]
   },
-  "boss_demo": {
-    "kind": "boss",
-    "name": "デモ・ガーディアン",
-    "hp": 720,
-    "hitboxRadius": 42,
-    "collisionRadius": 50,
-    "score": 40000,
-    "color": "#d89aff",
+  "crystal_gardener": {
+    "kind": "enemy",
+    "name": "結晶ガーデナー",
+    "hp": 92,
+    "hitboxRadius": 24,
+    "collisionRadius": 30,
+    "score": 3600,
+    "color": "#72dff0",
     "movement": {
       "type": "hover",
-      "target": [270, 150],
+      "target": [270, 155],
+      "duration": 9.0
+    },
+    "patterns": ["gardener_aimed_seed", "gardener_vine_spiral"]
+  },
+  "flora_orbis": {
+    "kind": "boss",
+    "name": "フローラ・オルビス",
+    "hp": 1440,
+    "hitboxRadius": 46,
+    "collisionRadius": 55,
+    "score": 68000,
+    "color": "#f69ce8",
+    "movement": {
+      "type": "hover",
+      "target": [270, 142],
       "duration": 999
     },
     "phases": [
       {
-        "name": "星彩の輪舞",
+        "name": "花冠の観測者",
         "hp": 720,
-        "timeLimit": 45,
-        "patterns": ["boss_spiral", "boss_aimed_fan"]
+        "timeLimit": 50,
+        "patterns": ["flora_petal_crown", "flora_seed_fan"]
+      },
+      {
+        "name": "硝子雨の心臓",
+        "hp": 720,
+        "timeLimit": 60,
+        "patterns": ["flora_vine_spiral", "flora_core_ring", "flora_seed_fan"]
       }
     ]
   }

@@ -5,6 +5,8 @@ export class Renderer {
     this.canvas = canvas;
     this.ctx = canvas.getContext('2d', { alpha: false });
     this.display = data.manifest.display;
+    this.brandTitle = data.manifest.title;
+    this.brandSubtitle = data.text['game.subtitle'] ?? data.manifest.version;
     this.canvas.width = this.display.width;
     this.canvas.height = this.display.height;
     this.fieldX = (this.display.width - this.display.fieldWidth) / 2;
@@ -265,10 +267,10 @@ export class Renderer {
     ctx.font = '700 17px system-ui, sans-serif';
     ctx.fillStyle = '#85f6ff';
     ctx.textAlign = 'left';
-    ctx.fillText('DANMAKU', leftX, 64);
+    ctx.fillText(this.brandTitle, leftX, 64);
     ctx.fillStyle = '#d8e7ff';
     ctx.font = '600 13px system-ui, sans-serif';
-    ctx.fillText('ENGINE DEMO v0.1', leftX, 86);
+    ctx.fillText(this.brandSubtitle, leftX, 86);
 
     const info = [
       ['SCORE', stats.score.toString().padStart(8, '0')],

@@ -3,7 +3,7 @@ import { InputManager } from './core/InputManager.js';
 import { SettingsStore } from './core/SettingsStore.js';
 import { GameDataLoader } from './content/GameDataLoader.js';
 import { GameWorld } from './gameplay/GameWorld.js';
-import { Renderer } from './render/Renderer.js';
+import { Renderer } from './render/Renderer.js?v=astral-bloom-01';
 
 const STEP_SECONDS = 1 / 60;
 const MAX_FRAME_SECONDS = 0.12;
@@ -16,6 +16,9 @@ const elements = {
   title: document.querySelector('#title-screen'),
   titleText: document.querySelector('#game-title'),
   subtitleText: document.querySelector('#game-subtitle'),
+  titleEyebrow: document.querySelector('#title-eyebrow'),
+  gameVersion: document.querySelector('#game-version'),
+  footerNote: document.querySelector('#footer-note'),
   result: document.querySelector('#result-screen'),
   resultStatus: document.querySelector('#result-status'),
   resultTitle: document.querySelector('#result-title'),
@@ -86,6 +89,16 @@ async function bootstrap() {
 
     elements.titleText.textContent = data.text['game.title'] ?? data.manifest.title;
     elements.subtitleText.textContent = data.text['game.subtitle'] ?? '';
+    elements.titleEyebrow.textContent = data.text['game.eyebrow'] ?? 'ORBITAL PURIFICATION PROTOCOL';
+    elements.gameVersion.textContent = `${data.manifest.version} PROTOTYPE`;
+    elements.footerNote.textContent = data.text['game.footer'] ?? data.manifest.title;
+    elements.startButton.textContent = data.text['menu.start'] ?? 'ゲームを開始';
+    elements.stageSelectButton.textContent = data.text['menu.stageSelect'] ?? 'ステージ選択';
+    elements.settingsButton.textContent = data.text['menu.settings'] ?? '設定';
+    elements.retryButton.textContent = data.text['result.retry'] ?? 'もう一度遊ぶ';
+    elements.backTitleButton.textContent = data.text['result.title'] ?? 'タイトルへ戻る';
+    elements.resumeButton.textContent = data.text['pause.resume'] ?? '再開';
+    elements.restartButton.textContent = data.text['pause.restart'] ?? '最初から';
     document.title = data.manifest.title;
 
     const syncSettingsUi = (current) => {
@@ -172,6 +185,7 @@ async function bootstrap() {
     world.on('playerHit', ({ x, y }) => renderer.burst(x, y, { color: '#f9fdff', count: 42, power: 180 }));
     world.on('bomb', ({ x, y }) => renderer.burst(x, y, { color: '#91f8ff', count: 48, power: 220 }));
     world.on('graze', ({ x, y }) => renderer.burst(x, y, { color: '#c5e7ff', count: 3, power: 34 }));
+    world.on('phaseChange', ({ phase }) => announce(phase?.name ?? 'PHASE CHANGE'));
     world.on('music', ({ id }) => audio.playMusic(id));
     world.on('sound', ({ id, volume }) => audio.playEffect(id, { volume }));
     world.on('stageClear', () => showResult('clear', world.player.score));

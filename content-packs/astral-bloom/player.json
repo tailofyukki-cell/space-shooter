@@ -1,43 +1,61 @@
 {
-  "pilot_demo": {
-    "id": "pilot_demo",
-    "name": "テストパイロット",
+  "cadenza_7": {
+    "id": "cadenza_7",
+    "name": "軌道保安機〈カデンツァ7〉",
     "hitboxRadius": 3,
     "pickupRadius": 28,
-    "moveSpeed": 300,
-    "focusSpeed": 145,
+    "moveSpeed": 310,
+    "focusSpeed": 138,
     "lives": 3,
     "bombs": 3,
-    "respawnInvincibility": 2.0,
+    "respawnInvincibility": 2.25,
     "shots": [
       {
-        "bullet": "player_needle",
-        "offsetX": 0,
+        "bullet": "cadenza_starlance",
+        "offsetX": -8,
         "offsetY": -22,
-        "interval": 0.075,
-        "angle": -90,
-        "speed": 820,
+        "interval": 0.07,
+        "angle": -94,
+        "speed": 860,
+        "damage": 3
+      },
+      {
+        "bullet": "cadenza_starlance",
+        "offsetX": 8,
+        "offsetY": -22,
+        "interval": 0.07,
+        "angle": -86,
+        "speed": 860,
         "damage": 3
       }
     ],
     "focusShots": [
       {
-        "bullet": "player_needle",
-        "offsetX": -14,
-        "offsetY": -22,
-        "interval": 0.075,
-        "angle": -90,
-        "speed": 860,
-        "damage": 3
+        "bullet": "cadenza_starlance",
+        "offsetX": -11,
+        "offsetY": -24,
+        "interval": 0.065,
+        "angle": -91,
+        "speed": 910,
+        "damage": 4
       },
       {
-        "bullet": "player_needle",
-        "offsetX": 14,
-        "offsetY": -22,
-        "interval": 0.075,
+        "bullet": "cadenza_starlance",
+        "offsetX": 0,
+        "offsetY": -27,
+        "interval": 0.065,
         "angle": -90,
-        "speed": 860,
-        "damage": 3
+        "speed": 925,
+        "damage": 4
+      },
+      {
+        "bullet": "cadenza_starlance",
+        "offsetX": 11,
+        "offsetY": -24,
+        "interval": 0.065,
+        "angle": -89,
+        "speed": 910,
+        "damage": 4
       }
     ]
   }

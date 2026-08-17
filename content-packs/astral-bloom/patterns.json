@@ -1,58 +1,105 @@
 {
-  "fairy_fan": {
+  "pollen_fan": {
     "loop": true,
-    "duration": 2.8,
-    "events": [
-      {
-        "at": 0.45,
-        "repeat": 6,
-        "interval": 0.38,
-        "action": "fan",
-        "bullet": "enemy_orb_red",
-        "count": 5,
-        "angle": 90,
-        "spread": 74,
-        "speed": 150,
-        "sound": "se_enemy_shot"
-      }
-    ]
-  },
-  "fairy_ring": {
-    "loop": true,
-    "duration": 2.6,
+    "duration": 2.9,
     "events": [
       {
         "at": 0.5,
         "repeat": 5,
-        "interval": 0.42,
-        "action": "ring",
-        "bullet": "enemy_orb_blue",
-        "count": 10,
-        "angle": 0,
-        "speed": 138,
-        "sound": "se_enemy_shot"
+        "interval": 0.44,
+        "action": "fan",
+        "bullet": "petal_orb",
+        "count": 5,
+        "angle": 90,
+        "spread": 68,
+        "speed": 142,
+        "sound": "se_petal_fire"
       }
     ]
   },
-  "boss_spiral": {
+  "petal_ring": {
     "loop": true,
-    "duration": 6.0,
+    "duration": 3.1,
+    "events": [
+      {
+        "at": 0.65,
+        "repeat": 4,
+        "interval": 0.55,
+        "action": "ring",
+        "bullet": "petal_orb",
+        "count": 12,
+        "angle": 15,
+        "speed": 132,
+        "sound": "se_petal_fire"
+      }
+    ]
+  },
+  "gardener_aimed_seed": {
+    "loop": true,
+    "duration": 4.2,
+    "events": [
+      {
+        "at": 0.9,
+        "repeat": 5,
+        "interval": 0.7,
+        "action": "fan",
+        "bullet": "coral_seed",
+        "count": 3,
+        "aimAtPlayer": true,
+        "spread": 26,
+        "speed": 194,
+        "sound": "se_petal_fire"
+      }
+    ]
+  },
+  "gardener_vine_spiral": {
+    "loop": true,
+    "duration": 4.5,
     "events": [
       {
         "at": 0.25,
-        "repeat": 42,
-        "interval": 0.12,
+        "repeat": 24,
+        "interval": 0.15,
         "action": "spiral",
-        "bullet": "enemy_orb_blue",
-        "count": 2,
-        "angle": 0,
-        "rotation": 19,
-        "speed": 148,
-        "sound": "se_enemy_shot"
+        "bullet": "vine_needle",
+        "count": 1,
+        "angle": 45,
+        "rotation": 17,
+        "speed": 165,
+        "sound": "se_petal_fire"
       }
     ]
   },
-  "boss_aimed_fan": {
+  "flora_petal_crown": {
+    "loop": true,
+    "duration": 5.2,
+    "events": [
+      {
+        "at": 0.35,
+        "repeat": 30,
+        "interval": 0.14,
+        "action": "spiral",
+        "bullet": "petal_orb",
+        "count": 2,
+        "angle": 0,
+        "rotation": 13,
+        "speed": 146,
+        "sound": "se_petal_fire"
+      },
+      {
+        "at": 1.1,
+        "repeat": 3,
+        "interval": 1.25,
+        "action": "ring",
+        "bullet": "core_bloom",
+        "count": 14,
+        "angle": 0,
+        "speed": 122,
+        "sound": "se_petal_fire"
+      }
+    ]
+  },
+  "flora_seed_fan": {
     "loop": true,
     "duration": 4.8,
     "events": [
@@ -61,12 +108,47 @@
         "repeat": 6,
         "interval": 0.65,
         "action": "fan",
-        "bullet": "enemy_needle_violet",
+        "bullet": "coral_seed",
         "count": 7,
         "aimAtPlayer": true,
-        "spread": 52,
-        "speed": 198,
-        "sound": "se_enemy_shot"
+        "spread": 48,
+        "speed": 205,
+        "sound": "se_petal_fire"
+      }
+    ]
+  },
+  "flora_vine_spiral": {
+    "loop": true,
+    "duration": 5.8,
+    "events": [
+      {
+        "at": 0.25,
+        "repeat": 34,
+        "interval": 0.13,
+        "action": "spiral",
+        "bullet": "vine_needle",
+        "count": 2,
+        "angle": 180,
+        "rotation": -15,
+        "speed": 174,
+        "sound": "se_petal_fire"
+      }
+    ]
+  },
+  "flora_core_ring": {
+    "loop": true,
+    "duration": 6.0,
+    "events": [
+      {
+        "at": 0.7,
+        "repeat": 4,
+        "interval": 1.1,
+        "action": "ring",
+        "bullet": "core_bloom",
+        "count": 18,
+        "angle": 10,
+        "speed": 138,
+        "sound": "se_petal_fire"
       }
     ]
   }

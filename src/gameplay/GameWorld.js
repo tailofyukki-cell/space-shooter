@@ -111,8 +111,19 @@ export class GameWorld {
         if (!bullet.active || !enemy.active) return;
         if (circlesOverlap(bullet.x, bullet.y, bullet.hitboxRadius, enemy.x, enemy.y, enemy.hitboxRadius)) {
           bullet.active = false;
-          if (enemy.takeDamage(bullet.damage)) this.destroyEnemy(enemy);
-          else this.emit('hit', { x: bullet.x, y: bullet.y, color: '#ffffff' });
+          if (enemy.takeDamage(bullet.damage)) {
+            this.destroyEnemy(enemy);
+          } else if (enemy.phaseChanged) {
+            this.patternRunner.detach(enemy);
+            this.patternRunner.attach(enemy);
+            enemy.phaseChanged = false;
+            this.clearEnemyBullets();
+            this.emit('sound', { id: 'se_bloom_break', volume: 0.8 });
+            this.emit('phaseChange', { enemy, phase: enemy.definition.phases?.[enemy.phaseIndex] });
+            this.emit('explosion', { x: enemy.x, y: enemy.y, boss: true });
+          } else {
+            this.emit('hit', { x: bullet.x, y: bullet.y, color: '#ffffff' });
+          }
         }
       });
     });

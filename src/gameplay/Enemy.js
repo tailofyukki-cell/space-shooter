@@ -14,10 +14,12 @@ export class Enemy {
     this.startX = x;
     this.startY = y;
     this.age = 0;
-    this.hp = definition.hp;
-    this.maxHp = definition.hp;
     this.phaseIndex = 0;
     this.phaseTimer = 0;
+    this.phaseChanged = false;
+    const firstPhase = definition.kind === 'boss' ? definition.phases?.[0] : null;
+    this.hp = firstPhase?.hp ?? definition.hp;
+    this.maxHp = firstPhase?.hp ?? definition.hp;
     this.hasEntered = false;
     this.dead = false;
   }
@@ -63,13 +65,23 @@ export class Enemy {
   takeDamage(amount) {
     if (!this.active || this.dead) return false;
     this.hp -= amount;
-    if (this.hp <= 0) {
-      this.hp = 0;
-      this.dead = true;
-      this.active = false;
-      return true;
+    if (this.hp > 0) return false;
+
+    const nextPhaseIndex = this.phaseIndex + 1;
+    const nextPhase = this.isBoss ? this.definition.phases?.[nextPhaseIndex] : null;
+    if (nextPhase) {
+      this.phaseIndex = nextPhaseIndex;
+      this.phaseTimer = 0;
+      this.hp = nextPhase.hp ?? this.definition.hp;
+      this.maxHp = nextPhase.hp ?? this.definition.hp;
+      this.phaseChanged = true;
+      return false;
     }
-    return false;
+
+    this.hp = 0;
+    this.dead = true;
+    this.active = false;
+    return true;
   }
 
   get isBoss() {
