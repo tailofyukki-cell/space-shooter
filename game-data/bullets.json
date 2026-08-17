@@ -1,0 +1,50 @@
+{
+  "player_needle": {
+    "team": "player",
+    "shape": "needle",
+    "radius": 4,
+    "hitboxRadius": 3,
+    "color": "#7cfcff",
+    "glowColor": "#c8ffff",
+    "speed": 820,
+    "damage": 3,
+    "cancelable": false,
+    "graze": false
+  },
+  "enemy_orb_red": {
+    "team": "enemy",
+    "shape": "orb",
+    "radius": 8,
+    "hitboxRadius": 4,
+    "color": "#ff526f",
+    "glowColor": "#ffbdc8",
+    "speed": 155,
+    "damage": 1,
+    "cancelable": true,
+    "graze": true
+  },
+  "enemy_orb_blue": {
+    "team": "enemy",
+    "shape": "orb",
+    "radius": 8,
+    "hitboxRadius": 4,
+    "color": "#66a7ff",
+    "glowColor": "#c4dcff",
+    "speed": 170,
+    "damage": 1,
+    "cancelable": true,
+    "graze": true
+  },
+  "enemy_needle_violet": {
+    "team": "enemy",
+    "shape": "needle",
+    "radius": 12,
+    "hitboxRadius": 4,
+    "color": "#c178ff",
+    "glowColor": "#efceff",
+    "speed": 215,
+    "damage": 1,
+    "cancelable": true,
+    "graze": true
+  }
+}

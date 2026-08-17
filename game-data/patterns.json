@@ -1,0 +1,73 @@
+{
+  "fairy_fan": {
+    "loop": true,
+    "duration": 2.8,
+    "events": [
+      {
+        "at": 0.45,
+        "repeat": 6,
+        "interval": 0.38,
+        "action": "fan",
+        "bullet": "enemy_orb_red",
+        "count": 5,
+        "angle": 90,
+        "spread": 74,
+        "speed": 150,
+        "sound": "se_enemy_shot"
+      }
+    ]
+  },
+  "fairy_ring": {
+    "loop": true,
+    "duration": 2.6,
+    "events": [
+      {
+        "at": 0.5,
+        "repeat": 5,
+        "interval": 0.42,
+        "action": "ring",
+        "bullet": "enemy_orb_blue",
+        "count": 10,
+        "angle": 0,
+        "speed": 138,
+        "sound": "se_enemy_shot"
+      }
+    ]
+  },
+  "boss_spiral": {
+    "loop": true,
+    "duration": 6.0,
+    "events": [
+      {
+        "at": 0.25,
+        "repeat": 42,
+        "interval": 0.12,
+        "action": "spiral",
+        "bullet": "enemy_orb_blue",
+        "count": 2,
+        "angle": 0,
+        "rotation": 19,
+        "speed": 148,
+        "sound": "se_enemy_shot"
+      }
+    ]
+  },
+  "boss_aimed_fan": {
+    "loop": true,
+    "duration": 4.8,
+    "events": [
+      {
+        "at": 0.8,
+        "repeat": 6,
+        "interval": 0.65,
+        "action": "fan",
+        "bullet": "enemy_needle_violet",
+        "count": 7,
+        "aimAtPlayer": true,
+        "spread": 52,
+        "speed": 198,
+        "sound": "se_enemy_shot"
+      }
+    ]
+  }
+}
