@@ -14,3 +14,11 @@ Thumbs.db
 
 # Logs
 *.log
+
+# Node.js
+node_modules/
+
+# Desktop build artifacts
+release/
+dist/
+out/
