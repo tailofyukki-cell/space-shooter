@@ -24,6 +24,8 @@
             <h1 id="game-title">DANMAKU ENGINE DEMO</h1>
             <p id="game-subtitle" class="subtitle">再利用可能な弾幕シューティング基盤</p>
             <button id="start-button" class="primary-button" type="button">ゲームを開始</button>
+            <button id="stage-select-button" class="secondary-button" type="button">ステージ選択</button>
+            <button id="settings-button" class="secondary-button" type="button">設定</button>
             <p class="version">ENGINE DEMO v0.1</p>
           </div>
           <div class="control-card" aria-label="操作説明">
@@ -42,6 +44,26 @@
             <p class="result-score">SCORE <strong id="final-score">00000000</strong></p>
             <button id="retry-button" class="primary-button" type="button">もう一度遊ぶ</button>
             <button id="back-title-button" class="secondary-button" type="button">タイトルへ戻る</button>
+          </div>
+        </div>
+
+        <div id="stage-select-screen" class="overlay-screen hidden" role="dialog" aria-modal="true" aria-labelledby="stage-select-heading">
+          <div class="settings-card">
+            <p class="eyebrow">SELECT MISSION</p>
+            <h2 id="stage-select-heading">ステージ選択</h2>
+            <div id="stage-list" class="stage-list"></div>
+            <button id="stage-select-back-button" class="secondary-button" type="button">戻る</button>
+          </div>
+        </div>
+
+        <div id="settings-screen" class="overlay-screen hidden" role="dialog" aria-modal="true" aria-labelledby="settings-heading">
+          <div class="settings-card">
+            <p class="eyebrow">SYSTEM CONFIGURATION</p>
+            <h2 id="settings-heading">設定</h2>
+            <label class="range-setting" for="bgm-volume"><span>BGM音量</span><output id="bgm-volume-value">80%</output><input id="bgm-volume" type="range" min="0" max="100" value="80" /></label>
+            <label class="range-setting" for="se-volume"><span>SE音量</span><output id="se-volume-value">90%</output><input id="se-volume" type="range" min="0" max="100" value="90" /></label>
+            <label class="toggle-setting" for="fullscreen-toggle"><input id="fullscreen-toggle" type="checkbox" /><span>フルスクリーン表示</span></label>
+            <button id="settings-back-button" class="secondary-button" type="button">戻る</button>
           </div>
         </div>
 

@@ -7,6 +7,7 @@
   "scripts": {
     "check": "node --check src/main.js && node --check src/core/InputManager.js && node --check src/content/GameDataLoader.js && node --check src/gameplay/GameWorld.js && node --check src/gameplay/PatternRunner.js && node --check src/render/Renderer.js",
     "test:smoke": "node tests/world-smoke.test.js",
+    "test:settings": "node tests/settings-store.test.js",
     "serve": "python3 -m http.server 4173"
   },
   "license": "MIT"

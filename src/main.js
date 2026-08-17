@@ -1,4 +1,6 @@
+import { AudioManager } from './core/AudioManager.js';
 import { InputManager } from './core/InputManager.js';
+import { SettingsStore } from './core/SettingsStore.js';
 import { GameDataLoader } from './content/GameDataLoader.js';
 import { GameWorld } from './gameplay/GameWorld.js';
 import { Renderer } from './render/Renderer.js';
@@ -18,8 +20,20 @@ const elements = {
   resultTitle: document.querySelector('#result-title'),
   finalScore: document.querySelector('#final-score'),
   pause: document.querySelector('#pause-screen'),
+  settings: document.querySelector('#settings-screen'),
+  stageSelect: document.querySelector('#stage-select-screen'),
+  stageList: document.querySelector('#stage-list'),
   announcement: document.querySelector('#announce'),
   startButton: document.querySelector('#start-button'),
+  stageSelectButton: document.querySelector('#stage-select-button'),
+  stageSelectBackButton: document.querySelector('#stage-select-back-button'),
+  settingsButton: document.querySelector('#settings-button'),
+  settingsBackButton: document.querySelector('#settings-back-button'),
+  bgmVolume: document.querySelector('#bgm-volume'),
+  bgmVolumeValue: document.querySelector('#bgm-volume-value'),
+  seVolume: document.querySelector('#se-volume'),
+  seVolumeValue: document.querySelector('#se-volume-value'),
+  fullscreenToggle: document.querySelector('#fullscreen-toggle'),
   retryButton: document.querySelector('#retry-button'),
   backTitleButton: document.querySelector('#back-title-button'),
   resumeButton: document.querySelector('#resume-button'),
@@ -34,6 +48,8 @@ function hideTransientScreens() {
   setHidden(elements.title, true);
   setHidden(elements.result, true);
   setHidden(elements.pause, true);
+  setHidden(elements.settings, true);
+  setHidden(elements.stageSelect, true);
   setHidden(elements.announcement, true);
 }
 
@@ -41,7 +57,10 @@ async function bootstrap() {
   try {
     elements.loadingMessage.textContent = 'ゲームパックを読み込んでいます。';
     const data = await new GameDataLoader('./game-data/').load();
-    const input = new InputManager(window);
+    const settingsStore = new SettingsStore(data.manifest.id);
+    const settings = settingsStore.get();
+    const input = new InputManager(window, settings.bindings);
+    const audio = new AudioManager(data.manifest.assets, settings);
     const world = new GameWorld(data);
     const renderer = new Renderer(elements.canvas, data);
     const stageId = data.manifest.entryStage;
@@ -50,17 +69,59 @@ async function bootstrap() {
     elements.subtitleText.textContent = data.text['game.subtitle'] ?? '';
     document.title = data.manifest.title;
 
+    const syncSettingsUi = (current) => {
+      elements.bgmVolume.value = String(Math.round(current.bgm * 100));
+      elements.bgmVolumeValue.value = `${Math.round(current.bgm * 100)}%`;
+      elements.seVolume.value = String(Math.round(current.se * 100));
+      elements.seVolumeValue.value = `${Math.round(current.se * 100)}%`;
+      elements.fullscreenToggle.checked = current.fullscreen;
+    };
+
     const showTitle = () => {
+      audio.stopMusic();
       world.state = 'title';
       input.enabled = true;
       hideTransientScreens();
       setHidden(elements.title, false);
     };
 
-    const startStage = () => {
+    const startStage = (requestedStageId = stageId) => {
+      audio.unlock();
       hideTransientScreens();
       input.enabled = true;
-      world.startStage(stageId);
+      world.startStage(requestedStageId);
+    };
+
+    const showStageSelect = () => {
+      elements.stageList.replaceChildren();
+      for (const stagePath of data.manifest.stages) {
+        const stage = data.stages[stagePath.split('/').pop().replace('.json', '')] ?? Object.values(data.stages).find((candidate) => stagePath.endsWith(`${candidate.id}.json`));
+        if (!stage) continue;
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'stage-entry';
+        button.innerHTML = `<span><strong>${stage.title}</strong><span>${stage.subtitle ?? stage.id}</span></span><em>START</em>`;
+        button.addEventListener('click', () => startStage(stage.id));
+        elements.stageList.append(button);
+      }
+      setHidden(elements.title, true);
+      setHidden(elements.stageSelect, false);
+    };
+
+    const showSettings = () => {
+      syncSettingsUi(settingsStore.get());
+      setHidden(elements.title, true);
+      setHidden(elements.settings, false);
+    };
+
+    const applyFullscreen = async (enabled) => {
+      const shell = document.querySelector('.game-shell');
+      try {
+        if (enabled && !document.fullscreenElement) await shell.requestFullscreen();
+        if (!enabled && document.fullscreenElement) await document.exitFullscreen();
+      } catch (error) {
+        console.warn('フルスクリーンを切り替えられませんでした。', error);
+      }
     };
 
     const showResult = (kind, score) => {
@@ -92,14 +153,39 @@ async function bootstrap() {
     world.on('playerHit', ({ x, y }) => renderer.burst(x, y, { color: '#f9fdff', count: 42, power: 180 }));
     world.on('bomb', ({ x, y }) => renderer.burst(x, y, { color: '#91f8ff', count: 48, power: 220 }));
     world.on('graze', ({ x, y }) => renderer.burst(x, y, { color: '#c5e7ff', count: 3, power: 34 }));
+    world.on('music', ({ id }) => audio.playMusic(id));
+    world.on('sound', ({ id, volume }) => audio.playEffect(id, { volume }));
     world.on('stageClear', () => showResult('clear', world.player.score));
     world.on('gameOver', ({ score }) => showResult('gameover', score));
     world.on('announce', ({ textKey }) => announce(data.text[textKey] ?? textKey));
 
     elements.startButton.addEventListener('click', startStage);
+    elements.stageSelectButton.addEventListener('click', showStageSelect);
+    elements.stageSelectBackButton.addEventListener('click', showTitle);
+    elements.settingsButton.addEventListener('click', showSettings);
+    elements.settingsBackButton.addEventListener('click', showTitle);
     elements.retryButton.addEventListener('click', startStage);
     elements.backTitleButton.addEventListener('click', showTitle);
     elements.restartButton.addEventListener('click', startStage);
+    elements.bgmVolume.addEventListener('input', () => {
+      const current = settingsStore.patch({ bgm: Number(elements.bgmVolume.value) / 100 });
+      audio.setVolumes(current);
+      syncSettingsUi(current);
+    });
+    elements.seVolume.addEventListener('input', () => {
+      const current = settingsStore.patch({ se: Number(elements.seVolume.value) / 100 });
+      audio.setVolumes(current);
+      syncSettingsUi(current);
+    });
+    elements.fullscreenToggle.addEventListener('change', async () => {
+      const current = settingsStore.patch({ fullscreen: elements.fullscreenToggle.checked });
+      await applyFullscreen(current.fullscreen);
+      syncSettingsUi(current);
+    });
+    document.addEventListener('fullscreenchange', () => {
+      const current = settingsStore.patch({ fullscreen: Boolean(document.fullscreenElement) });
+      syncSettingsUi(current);
+    });
     elements.resumeButton.addEventListener('click', () => {
       world.resume();
       setHidden(elements.pause, true);
@@ -134,6 +220,7 @@ async function bootstrap() {
       requestAnimationFrame(frame);
     };
 
+    syncSettingsUi(settings);
     setHidden(elements.loading, true);
     showTitle();
     requestAnimationFrame(frame);
