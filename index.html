@@ -1,56 +1,63 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Space Shooter - 横スクロールシューティング</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-    <div id="game-container">
-        <canvas id="gameCanvas"></canvas>
-        
-        <!-- タイトル画面 -->
-        <div id="title-screen" class="screen">
-            <h1>SPACE SHOOTER</h1>
-            <p class="subtitle">横スクロールシューティング</p>
-            <button id="start-button" class="btn">START</button>
-            <div class="controls">
-                <h3>操作方法</h3>
-                <p><strong>PC:</strong> W/A/S/D または ↑↓←→ で移動、Space でショット</p>
-                <p><strong>スマホ:</strong> 画面ドラッグで移動、タップでショット</p>
-            </div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#07091b" />
+    <title>DANMAKU ENGINE DEMO</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="game-shell" aria-label="弾幕シューティングゲーム">
+        <canvas id="game-canvas" width="1280" height="720" aria-label="ゲーム画面"></canvas>
+
+        <div id="loading-screen" class="overlay-screen">
+          <p class="eyebrow">INITIALIZING</p>
+          <h1>LOADING GAME PACK</h1>
+          <p id="loading-message">ゲームデータを検証しています。</p>
         </div>
-        
-        <!-- ゲーム画面UI -->
-        <div id="game-ui" class="screen hidden">
-            <div class="hud">
-                <div class="hud-item">
-                    <span class="label">SCORE:</span>
-                    <span id="score">0</span>
-                </div>
-                <div class="hud-item">
-                    <span class="label">LIFE:</span>
-                    <span id="life">3</span>
-                </div>
-                <div class="hud-item">
-                    <span class="label">TIME:</span>
-                    <span id="time">0</span>
-                </div>
-            </div>
+
+        <div id="title-screen" class="overlay-screen hidden">
+          <div class="title-card">
+            <p class="eyebrow">REUSABLE DANMAKU GAME FRAMEWORK</p>
+            <h1 id="game-title">DANMAKU ENGINE DEMO</h1>
+            <p id="game-subtitle" class="subtitle">再利用可能な弾幕シューティング基盤</p>
+            <button id="start-button" class="primary-button" type="button">ゲームを開始</button>
+            <p class="version">ENGINE DEMO v0.1</p>
+          </div>
+          <div class="control-card" aria-label="操作説明">
+            <div><kbd>Arrow / WASD</kbd><span>移動</span></div>
+            <div><kbd>Shift</kbd><span>低速移動</span></div>
+            <div><kbd>Z / Space</kbd><span>ショット</span></div>
+            <div><kbd>X</kbd><span>ボム</span></div>
+            <div><kbd>Esc</kbd><span>ポーズ</span></div>
+          </div>
         </div>
-        
-        <!-- 結果画面 -->
-        <div id="result-screen" class="screen hidden">
-            <h1 id="result-title">GAME OVER</h1>
-            <div class="result-info">
-                <p>FINAL SCORE: <span id="final-score">0</span></p>
-            </div>
-            <button id="retry-button" class="btn">RETRY</button>
-            <button id="title-button" class="btn btn-secondary">TITLE</button>
+
+        <div id="result-screen" class="overlay-screen hidden" role="dialog" aria-modal="true">
+          <div class="result-card">
+            <p id="result-status" class="eyebrow">STAGE CLEAR</p>
+            <h2 id="result-title">基盤検証ステージ</h2>
+            <p class="result-score">SCORE <strong id="final-score">00000000</strong></p>
+            <button id="retry-button" class="primary-button" type="button">もう一度遊ぶ</button>
+            <button id="back-title-button" class="secondary-button" type="button">タイトルへ戻る</button>
+          </div>
         </div>
-    </div>
-    
-    <script src="main.js"></script>
-</body>
+
+        <div id="pause-screen" class="overlay-screen hidden" role="dialog" aria-modal="true">
+          <div class="result-card compact">
+            <p class="eyebrow">SYSTEM PAUSED</p>
+            <h2>PAUSE</h2>
+            <button id="resume-button" class="primary-button" type="button">再開</button>
+            <button id="restart-button" class="secondary-button" type="button">最初から</button>
+          </div>
+        </div>
+
+        <div id="announce" class="announcement hidden" aria-live="polite"></div>
+      </section>
+      <p class="footer-note">Engine Demo — アセットとゲームデータを差し替えて別作品へ展開できる弾幕シューティング基盤</p>
+    </main>
+    <script type="module" src="./src/main.js"></script>
+  </body>
 </html>
