@@ -3,7 +3,7 @@ import { InputManager } from './core/InputManager.js';
 import { SettingsStore } from './core/SettingsStore.js';
 import { GameDataLoader } from './content/GameDataLoader.js';
 import { GameWorld } from './gameplay/GameWorld.js';
-import { Renderer } from './render/Renderer.js?v=astral-enemy-art-06';
+import { Renderer } from './render/Renderer.js?v=astral-bomb-07';
 
 const STEP_SECONDS = 1 / 60;
 const MAX_FRAME_SECONDS = 0.12;
@@ -183,7 +183,7 @@ async function bootstrap() {
     });
     world.on('hit', ({ x, y, color }) => renderer.burst(x, y, { color, count: 5, power: 42 }));
     world.on('playerHit', ({ x, y }) => renderer.burst(x, y, { color: '#f9fdff', count: 42, power: 180 }));
-    world.on('bomb', ({ x, y }) => renderer.burst(x, y, { color: '#91f8ff', count: 48, power: 220 }));
+    world.on('bomb', (payload) => renderer.startBomb(payload));
     world.on('graze', ({ x, y }) => renderer.burst(x, y, { color: '#c5e7ff', count: 3, power: 34 }));
     world.on('phaseChange', ({ phase }) => announce(phase?.name ?? 'PHASE CHANGE'));
     world.on('music', ({ id }) => audio.playMusic(id));

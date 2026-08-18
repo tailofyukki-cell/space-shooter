@@ -16,6 +16,8 @@
 | `enemy_petal_wisp` | `assets/astral-bloom/images/sprites/enemy_petal_wisp_game.png` | 花弁精霊。青緑の硝子核と五枚の刃状花弁を持つ、左向きの蛇行敵。 | 刷新・統合済み |
 | `enemy_crystal_gardener` | `assets/astral-bloom/images/sprites/enemy_crystal_gardener_game.png` | 結晶ガーデナー。深緑の六角温室、剪定アーム、黒曜石装甲を持つ中型整備機。 | 刷新・統合済み |
 | `boss_flora_orbis` | `assets/astral-bloom/images/sprites/boss_flora_orbis_game.png` | フローラ・オルビス。深紅の結晶核、六枚の装甲花弁、硝子軌道リングを持つ第1ステージボス。 | 刷新・統合済み |
+| `stage02_conduit_bg` | `assets/astral-bloom/images/backgrounds/stage02_moonrain_conduit_game.jpg` | 月虹の導水路背景。中央の回避空間を暗く保った、月光・星水・水晶水門の横長戦闘背景。 | 統合済み |
+| `boss_lumen_archon` | `assets/astral-bloom/images/sprites/lumen_archon_game.png` | ルーメン・アーコン。琥珀の結晶核、銀白の水門環、群青の結晶翼を持つ第2ステージボス。 | 統合済み |
 
 これらは `content-packs/astral-bloom/manifest.json` の `visuals` から参照する。別作品へ展開する際は、同じ論理キーを別の画像ファイルへ差し替えるだけで、既存の敵・ボス・ステージロジックを保ったままアートを置換できる。画像読込に失敗した場合はCanvasの図形描画が表示される。
 
@@ -32,5 +34,7 @@
 | `se_player_hit` | SE | 被弾 | 統合済み：BGMダッキングを伴う警告音。 |
 | `se_graze` | SE | グレイズ | 統合済み：短時間連打を抑制したきらめき。 |
 | `se_bomb` | SE | ボム | 統合済み：星環展開の広がりを示す効果音。 |
+
+第2ステージは現時点で `bg_stage01` と `bg_boss01` を再利用する試遊版である。販売候補では第2ステージ専用の通常BGM・ボスBGMを追加し、各ステージの音楽的な識別性を確立する。
 
 実アセットは `assets/README.md` の配置規約に従い、販売ビルドに含める前に `THIRD_PARTY_NOTICES.md` へ権利情報を記録する。

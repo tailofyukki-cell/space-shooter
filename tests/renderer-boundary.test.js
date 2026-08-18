@@ -18,6 +18,7 @@ const context = {
   fill: () => operations.push('fill'),
   stroke: () => operations.push('stroke'),
   drawImage: () => operations.push('drawImage'),
+  fillText: () => operations.push('fillText'),
   set globalAlpha(value) { operations.push(`alpha:${value}`); },
   set fillStyle(value) { operations.push('fillStyle'); },
   set strokeStyle(value) { operations.push('strokeStyle'); },
@@ -72,5 +73,13 @@ actualDrawEnemy(context, {
   definition: { color: '#96ff6a' },
 });
 assert.ok(operations.includes('drawImage'), '敵の一意IDではなくタイプIDから実スプライトを描画すること');
+
+operations.length = 0;
+renderer.startBomb({ x: 120, y: 180, duration: 1.35, canceledBullets: 9, clearedEnemies: 2 });
+renderer.drawBombEffect(context);
+assert.ok(operations.includes('fillText'), 'ボム演出は発動名とキャンセル情報をフィールド内へ描画すること');
+assert.ok(operations.includes('stroke'), 'ボム演出は視認可能な星環を描画すること');
+renderer.update(2);
+assert.equal(renderer.bombEffect, null, 'ボム演出は持続時間後に終了すること');
 
 console.log('renderer boundary test: OK');

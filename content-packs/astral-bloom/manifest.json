@@ -1,7 +1,7 @@
 {
   "id": "com.tailofyukki.astral-bloom",
   "title": "ASTRAL BLOOM",
-  "version": "0.2.0-horizontal-prototype",
+  "version": "0.3.0-multistage-prototype",
   "locale": "ja",
   "display": {
     "width": 1280,
@@ -24,16 +24,22 @@
     "text": "text/ja.json"
   },
   "stages": [
-    "stages/stage_glassrain_01.json"
+    "stages/stage_glassrain_01.json",
+    "stages/stage_moonrain_02.json"
   ],
   "visuals": {
     "background": "assets/astral-bloom/images/backgrounds/stage01_glassrain_garden_game.jpg",
+    "backgrounds": {
+      "stage_glassrain_01": "assets/astral-bloom/images/backgrounds/stage01_glassrain_garden_game.jpg",
+      "stage_moonrain_02": "assets/astral-bloom/images/backgrounds/stage02_moonrain_conduit_game.jpg"
+    },
     "sprites": {
       "player": "assets/astral-bloom/images/sprites/player_cadenza7_game.png",
       "pollen_scout": "assets/astral-bloom/images/sprites/enemy_pollen_scout_game.png",
       "petal_wisp": "assets/astral-bloom/images/sprites/enemy_petal_wisp_game.png",
       "crystal_gardener": "assets/astral-bloom/images/sprites/enemy_crystal_gardener_game.png",
-      "flora_orbis": "assets/astral-bloom/images/sprites/boss_flora_orbis_game.png"
+      "flora_orbis": "assets/astral-bloom/images/sprites/boss_flora_orbis_game.png",
+      "lumen_archon": "assets/astral-bloom/images/sprites/lumen_archon_game.png"
     }
   },
   "assets": {

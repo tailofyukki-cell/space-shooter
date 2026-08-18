@@ -3,6 +3,7 @@ import { readFile } from 'node:fs/promises';
 import { GameWorld } from '../src/gameplay/GameWorld.js';
 
 const packId = process.argv[2] ?? 'astral-bloom';
+const requestedStageId = process.argv[3];
 const root = new URL('../', import.meta.url);
 const packRoot = `content-packs/${packId}`;
 const readJson = async (relativePath) => JSON.parse(await readFile(new URL(relativePath, root), 'utf8'));
@@ -35,7 +36,8 @@ const soundEvents = [];
 const musicEvents = [];
 world.on('sound', ({ id }) => soundEvents.push(id));
 world.on('music', ({ id }) => musicEvents.push(id));
-world.startStage(manifest.entryStage);
+const stageId = requestedStageId ?? manifest.entryStage;
+world.startStage(stageId);
 assert.equal(world.state, 'playing', `${packId}: ステージ開始後はプレイ中であること`);
 if (packId === 'astral-bloom') {
   assert.ok(musicEvents.includes('bg_stage01'), 'ASTRAL BLOOM: ステージ開始時に通常BGMが発行されること');
@@ -74,10 +76,24 @@ if (boss.definition.phases?.length > 1) {
   assert.ok(boss.active, `${packId}: フェーズ移行後もボスが有効であること`);
 }
 
+const bombEvents = [];
+world.on('bomb', (payload) => bombEvents.push(payload));
+const enemyBulletId = Object.entries(data.bullets).find(([, definition]) => definition.team === 'enemy')?.[0];
+assert.ok(enemyBulletId, `${packId}: 敵弾が定義されていること`);
+const bombTarget = world.spawnEnemy(normalEnemyId, 360, 210);
+world.spawnEnemyBullet({ bulletId: enemyBulletId, x: 420, y: 210, vx: -80, vy: 0, ownerId: 'bomb-test' });
 const bombsBefore = world.player.bombs;
-assert.equal(world.player.useBomb(), true, `${packId}: 残ボムがあればボムを使用できること`);
-world.clearEnemyBullets();
-assert.equal(world.bulletPool.activeItems.some((bullet) => bullet.team === 'enemy'), false, `${packId}: ボム処理で敵弾を消去できること`);
+const bombInput = {
+  isDown: () => false,
+  wasPressed: (action) => action === 'bomb',
+  getMoveVector: () => ({ x: 0, y: 0 }),
+};
+world.update(1 / 60, bombInput);
 assert.equal(world.player.bombs, bombsBefore - 1, `${packId}: ボム使用で残数が減ること`);
+assert.ok(world.player.bombTimer > 0, `${packId}: ボム発動中は持続状態を保持すること`);
+assert.equal(world.bulletPool.activeItems.some((bullet) => bullet.team === 'enemy'), false, `${packId}: ボム処理で敵弾を消去できること`);
+assert.equal(bombTarget.active, false, `${packId}: ボム処理で通常敵を浄化できること`);
+assert.ok(bombEvents.at(-1)?.canceledBullets >= 1, `${packId}: ボムイベントがキャンセル数を通知すること`);
+assert.ok(bombEvents.at(-1)?.clearedEnemies >= 1, `${packId}: ボムイベントが浄化数を通知すること`);
 
-console.log(`world smoke test (${packId}): OK`);
+console.log(`world smoke test (${packId}:${stageId}): OK`);

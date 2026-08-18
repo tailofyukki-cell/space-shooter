@@ -47,6 +47,34 @@
     },
     "patterns": ["gardener_aimed_seed", "gardener_vine_spiral"]
   },
+  "lumen_archon": {
+    "kind": "boss",
+    "name": "ルーメン・アーコン",
+    "hp": 1840,
+    "hitboxRadius": 52,
+    "collisionRadius": 62,
+    "score": 92000,
+    "color": "#f6c86e",
+    "movement": {
+      "type": "hover",
+      "target": [742, 270],
+      "duration": 999
+    },
+    "phases": [
+      {
+        "name": "月虹の水門",
+        "hp": 900,
+        "timeLimit": 55,
+        "patterns": ["archon_gate_fan", "archon_moonring"]
+      },
+      {
+        "name": "星水の審判",
+        "hp": 940,
+        "timeLimit": 68,
+        "patterns": ["archon_tide_spiral", "archon_prism_aim", "archon_moonring"]
+      }
+    ]
+  },
   "flora_orbis": {
     "kind": "boss",
     "name": "フローラ・オルビス",

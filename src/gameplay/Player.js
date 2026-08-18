@@ -17,6 +17,7 @@ export class Player {
     this.graze = 0;
     this.shotTimer = 0;
     this.invincibleTimer = 1.5;
+    this.bombTimer = 0;
     this.focused = false;
     this.active = true;
   }
@@ -38,6 +39,7 @@ export class Player {
     }
 
     this.invincibleTimer = Math.max(0, this.invincibleTimer - dt);
+    this.bombTimer = Math.max(0, this.bombTimer - dt);
   }
 
   canBeHit() {
@@ -54,7 +56,8 @@ export class Player {
   useBomb() {
     if (!this.active || this.bombs <= 0) return false;
     this.bombs -= 1;
-    this.invincibleTimer = Math.max(this.invincibleTimer, 1.3);
+    this.bombTimer = this.definition.bombDuration ?? 1.35;
+    this.invincibleTimer = Math.max(this.invincibleTimer, this.bombTimer + 0.25);
     return true;
   }
 

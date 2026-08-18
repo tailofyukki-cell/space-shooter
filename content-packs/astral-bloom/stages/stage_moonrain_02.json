@@ -1,0 +1,36 @@
+{
+  "id": "stage_moonrain_02",
+  "title": "STAGE 02 — 月虹の導水路",
+  "subtitle": "Moonrain Conduit",
+  "music": "bg_stage01",
+  "background": {
+    "type": "moonwater",
+    "primaryColor": "#06142f",
+    "secondaryColor": "#102753",
+    "scrollSpeed": 42,
+    "flow": "rightToLeft"
+  },
+  "timeline": [
+    {"at": 0.8, "type": "announce", "textKey": "stage2.begin"},
+    {"at": 2.0, "type": "spawn", "enemy": "pollen_scout", "x": 1010, "y": 96},
+    {"at": 2.8, "type": "spawn", "enemy": "pollen_scout", "x": 1010, "y": 444},
+    {"at": 4.1, "type": "spawn", "enemy": "pollen_scout", "x": 1010, "y": 270},
+    {"at": 8.5, "type": "announce", "textKey": "stage2.mirrorGate"},
+    {"at": 9.5, "type": "spawn", "enemy": "petal_wisp", "x": 1010, "y": 126},
+    {"at": 10.8, "type": "spawn", "enemy": "petal_wisp", "x": 1010, "y": 414},
+    {"at": 14.2, "type": "spawn", "enemy": "pollen_scout", "x": 1010, "y": 178},
+    {"at": 14.2, "type": "spawn", "enemy": "pollen_scout", "x": 1010, "y": 362},
+    {"at": 19.0, "type": "spawn", "enemy": "crystal_gardener", "x": 1025, "y": 210},
+    {"at": 30.5, "type": "spawn", "enemy": "crystal_gardener", "x": 1025, "y": 338},
+    {"at": 40.0, "type": "announce", "textKey": "stage2.pressureWarning"},
+    {"at": 41.0, "type": "spawn", "enemy": "petal_wisp", "x": 1010, "y": 92},
+    {"at": 41.0, "type": "spawn", "enemy": "petal_wisp", "x": 1010, "y": 448},
+    {"at": 44.0, "type": "spawn", "enemy": "pollen_scout", "x": 1010, "y": 270},
+    {"at": 52.0, "type": "announce", "textKey": "stage2.archonDetected"},
+    {"at": 54.0, "type": "music", "track": "bg_boss01"},
+    {"at": 56.0, "type": "boss", "enemy": "lumen_archon", "x": 1045, "y": 270}
+  ],
+  "clear": {
+    "type": "bossDefeat"
+  }
+}

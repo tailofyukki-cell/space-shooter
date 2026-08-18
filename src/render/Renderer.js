@@ -18,12 +18,16 @@ export class Renderer {
     this.backgroundSpeed = 24;
     this.stars = [];
     this.particles = [];
+    this.bombEffect = null;
     this.seedStars();
     this.loadVisuals();
   }
 
   loadVisuals() {
     if (this.visuals.background) this.loadImage('background', this.visuals.background);
+    for (const [stageId, source] of Object.entries(this.visuals.backgrounds ?? {})) {
+      this.loadImage(`background:${stageId}`, source);
+    }
     for (const [key, source] of Object.entries(this.visuals.sprites ?? {})) {
       this.loadImage(`sprite:${key}`, source);
     }
@@ -76,6 +80,22 @@ export class Renderer {
       particle.life -= dt;
     }
     this.particles = this.particles.filter((particle) => particle.life > 0);
+    if (this.bombEffect) {
+      this.bombEffect.remaining = Math.max(0, this.bombEffect.remaining - dt);
+      if (this.bombEffect.remaining <= 0) this.bombEffect = null;
+    }
+  }
+
+  startBomb({ x, y, duration = 1.35, canceledBullets = 0, clearedEnemies = 0 } = {}) {
+    this.bombEffect = {
+      x,
+      y,
+      duration,
+      remaining: duration,
+      canceledBullets,
+      clearedEnemies,
+    };
+    this.burst(x, y, { color: '#baf7ff', count: 84, power: 260 });
   }
 
   burst(x, y, { color = '#ffffff', count = 18, power = 110 } = {}) {
@@ -136,7 +156,7 @@ export class Renderer {
     ctx.fillStyle = fieldGradient;
     ctx.fillRect(0, 0, fieldWidth, fieldHeight);
 
-    const backgroundImage = this.images.get('background');
+    const backgroundImage = this.images.get(`background:${world.stage?.id}`) ?? this.images.get('background');
     if (backgroundImage) {
       // Stage artwork is intentionally non-seamless. Keep it stable and use the star layer
       // for motion so a hard duplicate seam never crosses the bullet-dense play space.
@@ -167,6 +187,7 @@ export class Renderer {
     this.drawParticles(ctx);
     for (const bullet of world.bullets) this.drawBullet(ctx, bullet);
     for (const enemy of world.enemies) this.drawEnemy(ctx, enemy);
+    this.drawBombEffect(ctx);
     this.drawPlayer(ctx, world.player);
 
     // Restore the field transform while keeping the outer canvas transform, then
@@ -178,6 +199,49 @@ export class Renderer {
     ctx.restore();
 
     this.drawBossGauge(ctx, world);
+  }
+
+  drawBombEffect(ctx) {
+    const effect = this.bombEffect;
+    if (!effect) return;
+
+    const progress = 1 - effect.remaining / effect.duration;
+    const pulse = Math.sin(progress * Math.PI);
+    const maxRadius = Math.hypot(this.display.fieldWidth, this.display.fieldHeight) * 0.72;
+    ctx.save();
+    ctx.globalCompositeOperation = 'screen';
+
+    const flash = ctx.createRadialGradient(effect.x, effect.y, 0, effect.x, effect.y, maxRadius * 0.5);
+    flash.addColorStop(0, `rgba(236, 255, 255, ${0.34 * (1 - progress)})`);
+    flash.addColorStop(0.22, `rgba(132, 232, 255, ${0.18 * pulse})`);
+    flash.addColorStop(1, 'rgba(106, 174, 255, 0)');
+    ctx.fillStyle = flash;
+    ctx.fillRect(0, 0, this.display.fieldWidth, this.display.fieldHeight);
+
+    for (let ring = 0; ring < 3; ring += 1) {
+      const delayed = Math.max(0, progress - ring * 0.13) / (1 - ring * 0.13);
+      const radius = 42 + delayed * maxRadius;
+      ctx.globalAlpha = Math.max(0, 0.86 - delayed * 0.82) * (1 - ring * 0.16);
+      ctx.strokeStyle = ring === 1 ? '#fff8ff' : '#92edff';
+      ctx.lineWidth = ring === 1 ? 4.5 : 2.5;
+      ctx.shadowBlur = 18;
+      ctx.shadowColor = '#a3eaff';
+      ctx.beginPath();
+      ctx.arc(effect.x, effect.y, radius, 0, TAU);
+      ctx.stroke();
+    }
+
+    ctx.globalAlpha = 0.95;
+    ctx.shadowBlur = 18;
+    ctx.shadowColor = '#d7fbff';
+    ctx.fillStyle = '#f4fdff';
+    ctx.font = '800 23px system-ui, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('AETHER BREAK', this.display.fieldWidth / 2, 54);
+    ctx.font = '600 12px ui-monospace, monospace';
+    ctx.fillStyle = '#a6efff';
+    ctx.fillText(`CANCEL ${String(effect.canceledBullets).padStart(3, '0')}   PURIFY ${String(effect.clearedEnemies).padStart(2, '0')}`, this.display.fieldWidth / 2, 75);
+    ctx.restore();
   }
 
   drawBullet(ctx, bullet) {
@@ -218,6 +282,7 @@ export class Renderer {
         petal_wisp: [82, 64],
         crystal_gardener: [112, 90],
         flora_orbis: [230, 182],
+        lumen_archon: [240, 196],
       };
       const [width, height] = sizes[enemy.typeId ?? enemy.id] ?? (enemy.isBoss ? [230, 182] : [64, 52]);
       if (!enemy.isBoss) ctx.rotate(Math.sin(enemy.age * 3) * 0.045);
@@ -267,7 +332,7 @@ export class Renderer {
 
   drawPlayer(ctx, player) {
     if (!player.active) return;
-    const flicker = player.invincibleTimer > 0 && Math.floor(player.invincibleTimer * 18) % 2 === 0;
+    const flicker = player.bombTimer <= 0 && player.invincibleTimer > 0 && Math.floor(player.invincibleTimer * 18) % 2 === 0;
     if (flicker) return;
 
     ctx.save();
@@ -391,6 +456,24 @@ export class Renderer {
     ctx.textAlign = 'center';
     ctx.fillText('Z / SPACE: SHOT', this.fieldX + this.display.fieldWidth / 2, this.display.height - 38);
     ctx.fillText('SHIFT: FOCUS     X: BOMB     ESC: PAUSE', this.fieldX + this.display.fieldWidth / 2, this.display.height - 18);
+
+    if (world.player.bombTimer > 0) {
+      const duration = world.player.definition.bombDuration ?? 1.35;
+      const ratio = Math.max(0, world.player.bombTimer / duration);
+      const gaugeX = this.fieldX + 18;
+      const gaugeY = this.fieldY + this.display.fieldHeight - 34;
+      ctx.textAlign = 'left';
+      ctx.font = '800 12px ui-monospace, monospace';
+      ctx.fillStyle = '#dcfaff';
+      ctx.fillText('AETHER BREAK', gaugeX, gaugeY - 8);
+      ctx.fillStyle = 'rgba(5, 16, 43, 0.78)';
+      ctx.fillRect(gaugeX, gaugeY, 188, 9);
+      ctx.fillStyle = '#8eefff';
+      ctx.fillRect(gaugeX, gaugeY, 188 * ratio, 9);
+      ctx.strokeStyle = '#f1ffff';
+      ctx.lineWidth = 1;
+      ctx.strokeRect(gaugeX, gaugeY, 188, 9);
+    }
     ctx.restore();
   }
 }

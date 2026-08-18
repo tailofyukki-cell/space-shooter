@@ -57,9 +57,17 @@ export class GameWorld {
     this.player.update(dt, input, (shot) => this.spawnPlayerShot(shot));
 
     if (input.wasPressed('bomb') && this.player.useBomb()) {
-      this.clearEnemyBullets();
-      this.emit('sound', { id: 'se_bomb', volume: 0.75 });
-      this.emit('bomb', { x: this.player.x, y: this.player.y });
+      const canceledBullets = this.clearEnemyBullets();
+      const clearedEnemies = this.applyBombPulse();
+      this.player.addScore(canceledBullets * 12 + clearedEnemies * 80);
+      this.emit('sound', { id: 'se_bomb', volume: 0.82 });
+      this.emit('bomb', {
+        x: this.player.x,
+        y: this.player.y,
+        duration: this.player.bombTimer,
+        canceledBullets,
+        clearedEnemies,
+      });
     }
 
     this.stageRunner.update(dt, this);
@@ -173,10 +181,41 @@ export class GameWorld {
   }
 
   clearEnemyBullets() {
+    let canceled = 0;
     this.bulletPool.forEachActive((bullet) => {
-      if (bullet.team === 'enemy' && bullet.cancelable) bullet.active = false;
+      if (bullet.team === 'enemy' && bullet.cancelable) {
+        bullet.active = false;
+        canceled += 1;
+      }
     });
-    this.emit('bulletClear');
+    this.emit('bulletClear', { canceled });
+    return canceled;
+  }
+
+  applyBombPulse() {
+    let cleared = 0;
+    const targets = [...this.enemyPool.activeItems];
+    for (const enemy of targets) {
+      if (!enemy.active) continue;
+      if (enemy.isBoss) {
+        if (enemy.takeDamage(34)) {
+          this.destroyEnemy(enemy);
+        } else if (enemy.phaseChanged) {
+          this.patternRunner.detach(enemy);
+          this.patternRunner.attach(enemy);
+          enemy.phaseChanged = false;
+          this.emit('sound', { id: 'se_boss_phase', volume: 0.72 });
+          this.emit('phaseChange', { enemy, phase: enemy.definition.phases?.[enemy.phaseIndex] });
+        } else {
+          this.emit('hit', { x: enemy.x, y: enemy.y, color: '#c8f7ff' });
+        }
+        continue;
+      }
+      enemy.active = false;
+      this.destroyEnemy(enemy);
+      cleared += 1;
+    }
+    return cleared;
   }
 
   pause() {

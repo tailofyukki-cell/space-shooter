@@ -47,6 +47,30 @@
     "cancelable": true,
     "graze": true
   },
+  "lunar_prism": {
+    "team": "enemy",
+    "shape": "orb",
+    "radius": 10,
+    "hitboxRadius": 4,
+    "color": "#f5ba55",
+    "glowColor": "#fff2bb",
+    "speed": 164,
+    "damage": 1,
+    "cancelable": true,
+    "graze": true
+  },
+  "aqua_gate": {
+    "team": "enemy",
+    "shape": "needle",
+    "radius": 15,
+    "hitboxRadius": 4,
+    "color": "#70e4ff",
+    "glowColor": "#e5fcff",
+    "speed": 204,
+    "damage": 1,
+    "cancelable": true,
+    "graze": true
+  },
   "core_bloom": {
     "team": "enemy",
     "shape": "orb",
