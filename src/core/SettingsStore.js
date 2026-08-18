@@ -7,6 +7,7 @@ export const DEFAULT_SETTINGS = {
   bgm: 0.8,
   se: 0.9,
   fullscreen: false,
+  difficulty: 'normal',
   bindings: DEFAULT_BINDINGS,
 };
 
@@ -34,6 +35,7 @@ export class SettingsStore {
       bgm: clamp(Number(candidate.bgm ?? DEFAULT_SETTINGS.bgm), 0, 1),
       se: clamp(Number(candidate.se ?? DEFAULT_SETTINGS.se), 0, 1),
       fullscreen: Boolean(candidate.fullscreen ?? DEFAULT_SETTINGS.fullscreen),
+      difficulty: ['easy', 'normal', 'hard'].includes(candidate.difficulty) ? candidate.difficulty : DEFAULT_SETTINGS.difficulty,
       bindings: { ...structuredClone(DEFAULT_BINDINGS), ...(candidate.bindings ?? {}) },
     };
   }

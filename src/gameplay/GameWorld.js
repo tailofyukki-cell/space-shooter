@@ -6,6 +6,25 @@ import { PatternRunner } from './PatternRunner.js';
 import { Player } from './Player.js';
 import { StageRunner } from './StageRunner.js';
 
+const FALLBACK_DIFFICULTY = {
+  label: 'NORMAL',
+  playerLives: 3,
+  playerBombs: 3,
+  enemyHpMultiplier: 1,
+  bulletSpeedMultiplier: 1,
+  bulletDensityMultiplier: 1,
+};
+
+function scaleEnemyDefinition(definition, multiplier) {
+  const scaled = structuredClone(definition);
+  const scaleHp = (hp) => Math.max(1, Math.round((hp ?? 1) * multiplier));
+  scaled.hp = scaleHp(scaled.hp);
+  if (scaled.phases) {
+    scaled.phases = scaled.phases.map((phase) => ({ ...phase, hp: scaleHp(phase.hp ?? scaled.hp) }));
+  }
+  return scaled;
+}
+
 export class GameWorld {
   constructor(data) {
     this.data = data;
@@ -23,6 +42,16 @@ export class GameWorld {
     this.stage = null;
     this.stageRunner = null;
     this.background = null;
+    this.difficultyId = 'normal';
+    this.difficultyPresets = data.manifest.difficultyPresets ?? { normal: FALLBACK_DIFFICULTY };
+    this.difficulty = this.difficultyPresets.normal ?? FALLBACK_DIFFICULTY;
+  }
+
+  setDifficulty(difficultyId = 'normal') {
+    const preset = this.difficultyPresets[difficultyId] ?? this.difficultyPresets.normal ?? FALLBACK_DIFFICULTY;
+    this.difficultyId = this.difficultyPresets[difficultyId] ? difficultyId : 'normal';
+    this.difficulty = { ...FALLBACK_DIFFICULTY, ...preset };
+    return this.difficulty;
   }
 
   on(name, handler) {
@@ -44,7 +73,10 @@ export class GameWorld {
     this.bulletPool.deactivateAll();
     this.patternRunner.clear();
     this.entitySequence = 0;
-    this.player.reset();
+    this.player.reset({
+      lives: this.difficulty.playerLives,
+      bombs: this.difficulty.playerBombs,
+    });
     this.stage = definition;
     this.background = definition.background;
     this.stageRunner = new StageRunner(definition);
@@ -96,7 +128,8 @@ export class GameWorld {
   spawnEnemyBullet({ bulletId, x, y, vx, vy, ownerId }) {
     const definition = this.data.bullets[bulletId];
     if (!definition) return null;
-    return this.bulletPool.acquire({ definition, x, y, vx, vy, ownerId });
+    const speedMultiplier = this.difficulty.bulletSpeedMultiplier ?? 1;
+    return this.bulletPool.acquire({ definition, x, y, vx: vx * speedMultiplier, vy: vy * speedMultiplier, ownerId });
   }
 
   spawnEnemy(enemyId, x, y) {
@@ -105,7 +138,7 @@ export class GameWorld {
     const enemy = this.enemyPool.acquire({
       id: `${enemyId}:${this.entitySequence += 1}`,
       typeId: enemyId,
-      definition,
+      definition: scaleEnemyDefinition(definition, this.difficulty.enemyHpMultiplier ?? 1),
       x,
       y,
     });
@@ -247,6 +280,7 @@ export class GameWorld {
       enemyCount: this.enemyCount,
       bulletCount: this.bulletPool.countActive(),
       stageTime: this.stageRunner?.elapsed ?? 0,
+      difficulty: this.difficultyId,
     };
   }
 }

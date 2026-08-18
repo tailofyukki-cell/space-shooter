@@ -1,7 +1,7 @@
 {
   "id": "com.tailofyukki.astral-bloom",
   "title": "ASTRAL BLOOM",
-  "version": "0.3.0-multistage-prototype",
+  "version": "0.4.0-difficulty-ending-prototype",
   "locale": "ja",
   "display": {
     "width": 1280,
@@ -16,6 +16,45 @@
   },
   "entryStage": "stage_glassrain_01",
   "defaultPlayer": "cadenza_7",
+  "difficultyPresets": {
+    "easy": {
+      "label": "EASY",
+      "subtitle": "星環航路・訓練運用",
+      "description": "弾速と密度を抑え、残機とボムを多く持って出撃します。",
+      "accent": "#78f7ff",
+      "playerLives": 5,
+      "playerBombs": 4,
+      "enemyHpMultiplier": 0.72,
+      "bulletSpeedMultiplier": 0.82,
+      "bulletDensityMultiplier": 0.72
+    },
+    "normal": {
+      "label": "NORMAL",
+      "subtitle": "星環航路・標準浄化任務",
+      "description": "ASTRAL BLOOMの標準的な弾幕密度と耐久で出撃します。",
+      "accent": "#c58aff",
+      "playerLives": 3,
+      "playerBombs": 3,
+      "enemyHpMultiplier": 1,
+      "bulletSpeedMultiplier": 1,
+      "bulletDensityMultiplier": 1
+    },
+    "hard": {
+      "label": "HARD",
+      "subtitle": "星環航路・高圧浄化任務",
+      "description": "高速かつ高密度の弾幕と、強化された敵耐久に挑戦します。",
+      "accent": "#ffc365",
+      "playerLives": 2,
+      "playerBombs": 2,
+      "enemyHpMultiplier": 1.35,
+      "bulletSpeedMultiplier": 1.2,
+      "bulletDensityMultiplier": 1.3
+    }
+  },
+  "campaign": {
+    "endingAfterFinalStage": true,
+    "endingTitle": "星水は再び巡り、庭園は静寂を取り戻した。"
+  },
   "dataFiles": {
     "player": "player.json",
     "bullets": "bullets.json",

@@ -37,6 +37,16 @@
           </div>
         </div>
 
+        <div id="difficulty-select-screen" class="overlay-screen hidden" role="dialog" aria-modal="true" aria-labelledby="difficulty-select-heading">
+          <div class="difficulty-card">
+            <p class="eyebrow">SELECT ORBITAL CLEARANCE</p>
+            <h2 id="difficulty-select-heading">難易度選択</h2>
+            <p class="difficulty-intro">出撃プロトコルを選択してください。</p>
+            <div id="difficulty-list" class="difficulty-list"></div>
+            <button id="difficulty-back-button" class="secondary-button" type="button">戻る</button>
+          </div>
+        </div>
+
         <div id="result-screen" class="overlay-screen hidden" role="dialog" aria-modal="true">
           <div class="result-card">
             <p id="result-status" class="eyebrow">STAGE CLEAR</p>
@@ -44,6 +54,19 @@
             <p class="result-score">SCORE <strong id="final-score">00000000</strong></p>
             <button id="retry-button" class="primary-button" type="button">もう一度遊ぶ</button>
             <button id="back-title-button" class="secondary-button" type="button">タイトルへ戻る</button>
+          </div>
+        </div>
+
+        <div id="ending-screen" class="overlay-screen hidden" role="dialog" aria-modal="true" aria-labelledby="ending-heading">
+          <div class="ending-card">
+            <p class="eyebrow">ORBITAL GARDEN PURIFIED</p>
+            <h2 id="ending-heading">ASTRAL BLOOM</h2>
+            <p id="ending-story" class="ending-story"></p>
+            <p id="ending-achievement" class="ending-achievement"></p>
+            <p class="result-score">FINAL SCORE <strong id="ending-score">00000000</strong></p>
+            <button id="ending-retry-button" class="primary-button" type="button">同じ難易度で再出撃</button>
+            <button id="ending-difficulty-button" class="secondary-button" type="button">難易度を選び直す</button>
+            <button id="ending-title-button" class="secondary-button" type="button">タイトルへ戻る</button>
           </div>
         </div>
 

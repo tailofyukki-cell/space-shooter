@@ -55,6 +55,14 @@ export class GameDataLoader {
     for (const key of required) {
       if (!(key in manifest)) throw new Error(`manifest.json に必須項目「${key}」がありません。`);
     }
+    if (manifest.difficultyPresets) {
+      if (!manifest.difficultyPresets.normal) throw new Error('difficultyPresets に normal が必要です。');
+      for (const [id, preset] of Object.entries(manifest.difficultyPresets)) {
+        for (const key of ['playerLives', 'playerBombs', 'enemyHpMultiplier', 'bulletSpeedMultiplier', 'bulletDensityMultiplier']) {
+          if (!(Number(preset[key]) > 0)) throw new Error(`難易度「${id}」の ${key} は0より大きい数値である必要があります。`);
+        }
+      }
+    }
   }
 
   validateData(data) {

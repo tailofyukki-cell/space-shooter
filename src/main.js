@@ -19,6 +19,9 @@ const elements = {
   titleEyebrow: document.querySelector('#title-eyebrow'),
   gameVersion: document.querySelector('#game-version'),
   footerNote: document.querySelector('#footer-note'),
+  difficultySelect: document.querySelector('#difficulty-select-screen'),
+  difficultyList: document.querySelector('#difficulty-list'),
+  difficultyBackButton: document.querySelector('#difficulty-back-button'),
   result: document.querySelector('#result-screen'),
   resultStatus: document.querySelector('#result-status'),
   resultTitle: document.querySelector('#result-title'),
@@ -40,6 +43,13 @@ const elements = {
   fullscreenToggle: document.querySelector('#fullscreen-toggle'),
   retryButton: document.querySelector('#retry-button'),
   backTitleButton: document.querySelector('#back-title-button'),
+  ending: document.querySelector('#ending-screen'),
+  endingStory: document.querySelector('#ending-story'),
+  endingAchievement: document.querySelector('#ending-achievement'),
+  endingScore: document.querySelector('#ending-score'),
+  endingRetryButton: document.querySelector('#ending-retry-button'),
+  endingDifficultyButton: document.querySelector('#ending-difficulty-button'),
+  endingTitleButton: document.querySelector('#ending-title-button'),
   resumeButton: document.querySelector('#resume-button'),
   restartButton: document.querySelector('#restart-button'),
 };
@@ -50,7 +60,9 @@ function setHidden(element, hidden) {
 
 function hideTransientScreens() {
   setHidden(elements.title, true);
+  setHidden(elements.difficultySelect, true);
   setHidden(elements.result, true);
+  setHidden(elements.ending, true);
   setHidden(elements.pause, true);
   setHidden(elements.settings, true);
   setHidden(elements.stageSelect, true);
@@ -86,6 +98,19 @@ async function bootstrap() {
     const world = new GameWorld(data);
     const renderer = new Renderer(elements.canvas, data);
     const stageId = data.manifest.entryStage;
+    let pendingStageId = stageId;
+    const difficultyPresets = data.manifest.difficultyPresets ?? {};
+    const applyDifficulty = (difficultyId) => {
+      const requested = difficultyPresets[difficultyId] ? difficultyId : 'normal';
+      const current = settingsStore.patch({ difficulty: requested });
+      return world.setDifficulty(current.difficulty);
+    };
+    applyDifficulty(settings.difficulty);
+    const campaignStageIds = data.manifest.stages
+      .map((path) => path.split('/').pop().replace('.json', ''))
+      .map((fileId) => data.stages[fileId]?.id ?? Object.values(data.stages).find((stage) => stage.id === fileId)?.id)
+      .filter(Boolean);
+    const isFinalCampaignStage = (stage) => campaignStageIds.at(-1) === stage?.id;
 
     elements.titleText.textContent = data.text['game.title'] ?? data.manifest.title;
     elements.subtitleText.textContent = data.text['game.subtitle'] ?? '';
@@ -119,9 +144,31 @@ async function bootstrap() {
 
     const startStage = (requestedStageId = stageId) => {
       audio.unlock();
+      pendingStageId = requestedStageId;
       hideTransientScreens();
       input.enabled = true;
       world.startStage(requestedStageId);
+    };
+
+    const showDifficultySelect = (requestedStageId = stageId) => {
+      pendingStageId = requestedStageId;
+      elements.difficultyList.replaceChildren();
+      const selectedId = settingsStore.get().difficulty;
+      for (const [difficultyId, preset] of Object.entries(difficultyPresets)) {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = `difficulty-entry${difficultyId === selectedId ? ' selected' : ''}`;
+        button.style.setProperty('--difficulty-accent', preset.accent ?? '#a5f6ff');
+        button.innerHTML = `<strong>${preset.label ?? difficultyId.toUpperCase()}</strong><span>${preset.subtitle ?? ''}</span><small>${preset.description ?? ''}</small>`;
+        button.addEventListener('click', () => {
+          applyDifficulty(difficultyId);
+          startStage(pendingStageId);
+        });
+        elements.difficultyList.append(button);
+      }
+      setHidden(elements.title, true);
+      setHidden(elements.stageSelect, true);
+      setHidden(elements.difficultySelect, false);
     };
 
     const showStageSelect = () => {
@@ -133,7 +180,7 @@ async function bootstrap() {
         button.type = 'button';
         button.className = 'stage-entry';
         button.innerHTML = `<span><strong>${stage.title}</strong><span>${stage.subtitle ?? stage.id}</span></span><em>START</em>`;
-        button.addEventListener('click', () => startStage(stage.id));
+        button.addEventListener('click', () => showDifficultySelect(stage.id));
         elements.stageList.append(button);
       }
       setHidden(elements.title, true);
@@ -160,12 +207,26 @@ async function bootstrap() {
       input.enabled = false;
       setHidden(elements.pause, true);
       setHidden(elements.result, false);
-      elements.resultStatus.textContent = kind === 'clear' ? 'STAGE CLEAR' : 'MISSION FAILED';
+      const difficultyLabel = world.difficulty.label ?? world.difficultyId.toUpperCase();
+      elements.resultStatus.textContent = kind === 'clear' ? `STAGE CLEAR — ${difficultyLabel}` : `MISSION FAILED — ${difficultyLabel}`;
       elements.resultTitle.textContent = kind === 'clear'
         ? (world.stage?.title ?? 'STAGE CLEAR')
         : (data.text['result.gameOver'] ?? 'GAME OVER');
       elements.finalScore.textContent = String(score).padStart(8, '0');
       elements.retryButton.focus();
+    };
+
+    const showEnding = ({ stage, score }) => {
+      input.enabled = false;
+      audio.stopMusic();
+      hideTransientScreens();
+      elements.endingStory.textContent = data.text['ending.story'] ?? data.manifest.campaign?.endingTitle ?? stage.title;
+      elements.endingAchievement.textContent = world.difficultyId === 'hard'
+        ? (data.text['ending.hard'] ?? 'HARD CLEAR')
+        : `${data.text['ending.clear'] ?? 'CAMPAIGN COMPLETE'} — ${world.difficulty.label ?? world.difficultyId.toUpperCase()}`;
+      elements.endingScore.textContent = String(score).padStart(8, '0');
+      setHidden(elements.ending, false);
+      elements.endingRetryButton.focus();
     };
 
     const announce = (text) => {
@@ -188,18 +249,28 @@ async function bootstrap() {
     world.on('phaseChange', ({ phase }) => announce(phase?.name ?? 'PHASE CHANGE'));
     world.on('music', ({ id }) => audio.playMusic(id));
     world.on('sound', ({ id, volume, duckMusic = false }) => audio.playEffect(id, { volume, duckMusic }));
-    world.on('stageClear', () => showResult('clear', world.player.score));
+    world.on('stageClear', ({ stage }) => {
+      if (data.manifest.campaign?.endingAfterFinalStage && isFinalCampaignStage(stage)) {
+        showEnding({ stage, score: world.player.score });
+      } else {
+        showResult('clear', world.player.score);
+      }
+    });
     world.on('gameOver', ({ score }) => showResult('gameover', score));
     world.on('announce', ({ textKey }) => announce(data.text[textKey] ?? textKey));
 
-    elements.startButton.addEventListener('click', startStage);
+    elements.startButton.addEventListener('click', () => showDifficultySelect(stageId));
     elements.stageSelectButton.addEventListener('click', showStageSelect);
+    elements.difficultyBackButton.addEventListener('click', showTitle);
     elements.stageSelectBackButton.addEventListener('click', showTitle);
     elements.settingsButton.addEventListener('click', showSettings);
     elements.settingsBackButton.addEventListener('click', showTitle);
-    elements.retryButton.addEventListener('click', startStage);
+    elements.retryButton.addEventListener('click', () => startStage(world.stage?.id ?? stageId));
     elements.backTitleButton.addEventListener('click', showTitle);
-    elements.restartButton.addEventListener('click', startStage);
+    elements.endingRetryButton.addEventListener('click', () => startStage(stageId));
+    elements.endingDifficultyButton.addEventListener('click', () => showDifficultySelect(stageId));
+    elements.endingTitleButton.addEventListener('click', showTitle);
+    elements.restartButton.addEventListener('click', () => startStage(world.stage?.id ?? stageId));
     elements.bgmVolume.addEventListener('input', () => {
       const current = settingsStore.patch({ bgm: Number(elements.bgmVolume.value) / 100 });
       audio.setVolumes(current);
@@ -234,7 +305,7 @@ async function bootstrap() {
         world.resume();
         setHidden(elements.pause, true);
       } else if (world.state === 'title' && input.wasPressed('confirm')) {
-        startStage();
+        showDifficultySelect(stageId);
       }
       world.update(dt, input);
       renderer.update(dt);

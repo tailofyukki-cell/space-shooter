@@ -434,13 +434,14 @@ export class Renderer {
     ctx.fillText(this.brandSubtitle, leftX, 86);
 
     const info = [
+      ['LEVEL', world.difficulty.label ?? stats.difficulty.toUpperCase()],
       ['SCORE', stats.score.toString().padStart(8, '0')],
       ['LIFE', '◆'.repeat(Math.max(0, stats.lives))],
       ['BOMB', '●'.repeat(Math.max(0, stats.bombs))],
       ['GRAZE', String(stats.graze)],
     ];
     ctx.textAlign = 'right';
-    let y = 118;
+    let y = 94;
     for (const [label, value] of info) {
       ctx.fillStyle = '#9eb0d8';
       ctx.font = '600 12px system-ui, sans-serif';

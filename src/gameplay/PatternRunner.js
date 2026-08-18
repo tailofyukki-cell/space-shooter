@@ -1,7 +1,11 @@
 import { angleBetween, vectorFromAngle } from '../core/math.js';
 
-function getEventRepeat(event) {
-  return Math.max(1, event.repeat ?? 1);
+function scaleDensity(value, multiplier = 1) {
+  return Math.max(1, Math.round(value * multiplier));
+}
+
+function getEventRepeat(event, multiplier = 1) {
+  return scaleDensity(event.repeat ?? 1, multiplier);
 }
 
 function getEventTime(event, index) {
@@ -44,7 +48,7 @@ export class PatternRunner {
       instance.elapsed += dt;
       const events = instance.definition.events ?? [];
       events.forEach((event, eventIndex) => {
-        const repeat = getEventRepeat(event);
+        const repeat = getEventRepeat(event, world.difficulty.bulletDensityMultiplier ?? 1);
         for (let i = 0; i < repeat; i += 1) {
           const eventTime = getEventTime(event, i);
           const token = `${eventIndex}:${i}`;
@@ -97,14 +101,14 @@ export class PatternRunner {
     if (event.action === 'aimed') {
       fire(angleBetween(owner.x, owner.y, player.x, player.y));
     } else if (event.action === 'fan') {
-      const count = Math.max(1, event.count ?? 1);
+      const count = scaleDensity(event.count ?? 1, world.difficulty.bulletDensityMultiplier ?? 1);
       const spread = event.spread ?? 0;
       const start = baseAngle - spread / 2;
       const step = count === 1 ? 0 : spread / (count - 1);
       for (let index = 0; index < count; index += 1) fire(start + step * index);
     } else if (event.action === 'ring' || event.action === 'spiral') {
-      const count = Math.max(1, event.count ?? 1);
-      const rotation = event.action === 'spiral' ? (event.rotation ?? 0) * (repeatIndex + instance.cycle * getEventRepeat(event)) : 0;
+      const count = scaleDensity(event.count ?? 1, world.difficulty.bulletDensityMultiplier ?? 1);
+      const rotation = event.action === 'spiral' ? (event.rotation ?? 0) * (repeatIndex + instance.cycle * getEventRepeat(event, world.difficulty.bulletDensityMultiplier ?? 1)) : 0;
       for (let index = 0; index < count; index += 1) {
         fire(baseAngle + rotation + (360 / count) * index);
       }

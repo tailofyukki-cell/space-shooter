@@ -7,12 +7,12 @@ export class Player {
     this.reset();
   }
 
-  reset() {
+  reset({ lives, bombs } = {}) {
     const [spawnX, spawnY] = this.definition.spawn ?? [this.bounds.width / 2, this.bounds.height - 104];
     this.x = clamp(spawnX, 18, this.bounds.width - 18);
     this.y = clamp(spawnY, 28, this.bounds.height - 24);
-    this.lives = this.definition.lives;
-    this.bombs = this.definition.bombs;
+    this.lives = Number.isFinite(lives) ? lives : this.definition.lives;
+    this.bombs = Number.isFinite(bombs) ? bombs : this.definition.bombs;
     this.score = 0;
     this.graze = 0;
     this.shotTimer = 0;
