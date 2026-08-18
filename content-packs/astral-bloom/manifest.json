@@ -37,12 +37,14 @@
     }
   },
   "assets": {
-    "bg_stage01": "assets/astral-bloom/audio/bgm/glassrain-garden.ogg",
-    "bg_boss01": "assets/astral-bloom/audio/bgm/flora-orbis.ogg",
-    "se_player_shot": "assets/astral-bloom/audio/se/cadenza-shot.ogg",
-    "se_petal_fire": "assets/astral-bloom/audio/se/petal-fire.ogg",
-    "se_bloom_break": "assets/astral-bloom/audio/se/bloom-break.ogg",
-    "se_graze": "assets/astral-bloom/audio/se/graze.ogg",
-    "se_bomb": "assets/astral-bloom/audio/se/starlance-bomb.ogg"
+    "bg_stage01": "assets/astral-bloom/audio/bgm/glassrain-garden.mp3",
+    "bg_boss01": "assets/astral-bloom/audio/bgm/flora-orbis.mp3",
+    "se_player_shot": "assets/astral-bloom/audio/se/cadenza-shot.mp3",
+    "se_enemy_shot": "assets/astral-bloom/audio/se/petal-fire.mp3",
+    "se_enemy_destroy": "assets/astral-bloom/audio/se/crystal-break.mp3",
+    "se_boss_phase": "assets/astral-bloom/audio/se/flora-phase.mp3",
+    "se_player_hit": "assets/astral-bloom/audio/se/player-hit.mp3",
+    "se_graze": "assets/astral-bloom/audio/se/graze.mp3",
+    "se_bomb": "assets/astral-bloom/audio/se/starlance-bomb.mp3"
   }
 }

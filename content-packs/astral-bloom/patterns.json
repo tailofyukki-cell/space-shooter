@@ -13,7 +13,7 @@
         "angle": 180,
         "spread": 48,
         "speed": 138,
-        "sound": "se_petal_fire"
+        "sound": "se_enemy_shot"
       }
     ]
   },
@@ -30,7 +30,7 @@
         "count": 8,
         "angle": 0,
         "speed": 118,
-        "sound": "se_petal_fire"
+        "sound": "se_enemy_shot"
       }
     ]
   },
@@ -48,7 +48,7 @@
         "aimAtPlayer": true,
         "spread": 22,
         "speed": 166,
-        "sound": "se_petal_fire"
+        "sound": "se_enemy_shot"
       }
     ]
   },
@@ -66,7 +66,7 @@
         "angle": 180,
         "rotation": 15,
         "speed": 142,
-        "sound": "se_petal_fire"
+        "sound": "se_enemy_shot"
       }
     ]
   },
@@ -84,7 +84,7 @@
         "angle": 180,
         "rotation": 12,
         "speed": 150,
-        "sound": "se_petal_fire"
+        "sound": "se_enemy_shot"
       },
       {
         "at": 1.25,
@@ -95,7 +95,7 @@
         "count": 12,
         "angle": 0,
         "speed": 126,
-        "sound": "se_petal_fire"
+        "sound": "se_enemy_shot"
       }
     ]
   },
@@ -113,7 +113,7 @@
         "aimAtPlayer": true,
         "spread": 38,
         "speed": 196,
-        "sound": "se_petal_fire"
+        "sound": "se_enemy_shot"
       }
     ]
   },
@@ -131,7 +131,7 @@
         "angle": 180,
         "rotation": -14,
         "speed": 176,
-        "sound": "se_petal_fire"
+        "sound": "se_enemy_shot"
       }
     ]
   },
@@ -148,7 +148,7 @@
         "count": 16,
         "angle": 0,
         "speed": 142,
-        "sound": "se_petal_fire"
+        "sound": "se_enemy_shot"
       }
     ]
   }

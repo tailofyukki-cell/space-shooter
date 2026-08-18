@@ -7,8 +7,8 @@
 | エンジン | Electron | Electron contributors | Electron License | 確認要 | 確認要 | URL／ライセンス原文 |
 | パッケージング | electron-builder | electron-userland | MIT License | 確認要 | 確認要 | URL／ライセンス原文 |
 | アイコン | `build/app-icon.png` | 本プロジェクト用に生成 | 使用サービスの規約を確認 | 確認要 | 確認要 | 生成記録 |
-| BGM | 未追加 | — | — | — | — | — |
-| SE | 未追加 | — | — | — | — | — |
+| BGM | `assets/astral-bloom/audio/bgm/*.mp3` | 本プロジェクトの `scripts/generate_astral_audio.py` による手続き型生成 | 外部の録音・サンプル・既存楽曲は使用しない | 本プロジェクトの販売ライセンス方針に従う | 不要（第三者素材なし） | 生成スクリプト、Git履歴、音声仕様書 |
+| SE | `assets/astral-bloom/audio/se/*.mp3` | 本プロジェクトの `scripts/generate_astral_audio.py` による手続き型生成 | 外部の録音・サンプル・既存効果音は使用しない | 本プロジェクトの販売ライセンス方針に従う | 不要（第三者素材なし） | 生成スクリプト、Git履歴、音声仕様書 |
 | 画像・スプライト | 未追加 | — | — | — | — | — |
 | フォント | 未追加 | — | — | — | — | — |
 

@@ -82,7 +82,7 @@ export class GameWorld {
       vy: velocity.y,
       ownerId: 'player',
     });
-    this.emit('sound', { id: 'se_shot', volume: 0.16 });
+    this.emit('sound', { id: 'se_player_shot', volume: 0.16 });
   }
 
   spawnEnemyBullet({ bulletId, x, y, vx, vy, ownerId }) {
@@ -118,7 +118,7 @@ export class GameWorld {
             this.patternRunner.attach(enemy);
             enemy.phaseChanged = false;
             this.clearEnemyBullets();
-            this.emit('sound', { id: 'se_bloom_break', volume: 0.8 });
+            this.emit('sound', { id: 'se_boss_phase', volume: 0.8 });
             this.emit('phaseChange', { enemy, phase: enemy.definition.phases?.[enemy.phaseIndex] });
             this.emit('explosion', { x: enemy.x, y: enemy.y, boss: true });
           } else {
@@ -134,6 +134,7 @@ export class GameWorld {
       if (bullet.graze && !bullet.grazed && circlesOverlap(bullet.x, bullet.y, grazeRadius, this.player.x, this.player.y, 0)) {
         bullet.grazed = true;
         this.player.addGraze();
+        this.emit('sound', { id: 'se_graze', volume: 0.32 });
         this.emit('graze', { x: bullet.x, y: bullet.y });
       }
       if (this.player.canBeHit() && circlesOverlap(bullet.x, bullet.y, bullet.hitboxRadius, this.player.x, this.player.y, this.player.hitboxRadius)) {
@@ -153,7 +154,7 @@ export class GameWorld {
   damagePlayer() {
     if (!this.player.hit()) return;
     this.clearEnemyBullets();
-    this.emit('sound', { id: 'se_hit', volume: 0.7 });
+    this.emit('sound', { id: 'se_player_hit', volume: 0.7, duckMusic: true });
     this.emit('playerHit', { x: this.player.x, y: this.player.y });
     if (this.player.lives <= 0) {
       this.state = 'gameover';
@@ -165,7 +166,7 @@ export class GameWorld {
   destroyEnemy(enemy) {
     this.patternRunner.detach(enemy);
     this.player.addScore(enemy.definition.score ?? 0);
-    this.emit('sound', { id: 'se_explosion', volume: enemy.isBoss ? 0.9 : 0.45 });
+    this.emit('sound', { id: 'se_enemy_destroy', volume: enemy.isBoss ? 0.9 : 0.45 });
     this.emit('explosion', { x: enemy.x, y: enemy.y, boss: enemy.isBoss });
     if (enemy.isBoss) this.clearEnemyBullets();
   }

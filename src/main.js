@@ -1,4 +1,4 @@
-import { AudioManager } from './core/AudioManager.js';
+import { AudioManager } from './core/AudioManager.js?v=astral-audio-01';
 import { InputManager } from './core/InputManager.js';
 import { SettingsStore } from './core/SettingsStore.js';
 import { GameDataLoader } from './content/GameDataLoader.js';
@@ -187,7 +187,7 @@ async function bootstrap() {
     world.on('graze', ({ x, y }) => renderer.burst(x, y, { color: '#c5e7ff', count: 3, power: 34 }));
     world.on('phaseChange', ({ phase }) => announce(phase?.name ?? 'PHASE CHANGE'));
     world.on('music', ({ id }) => audio.playMusic(id));
-    world.on('sound', ({ id, volume }) => audio.playEffect(id, { volume }));
+    world.on('sound', ({ id, volume, duckMusic = false }) => audio.playEffect(id, { volume, duckMusic }));
     world.on('stageClear', () => showResult('clear', world.player.score));
     world.on('gameOver', ({ score }) => showResult('gameover', score));
     world.on('announce', ({ textKey }) => announce(data.text[textKey] ?? textKey));
