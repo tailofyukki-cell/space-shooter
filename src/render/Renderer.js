@@ -124,6 +124,10 @@ export class Renderer {
     const { fieldWidth, fieldHeight } = this.display;
     ctx.save();
     ctx.translate(this.fieldX, this.fieldY);
+    ctx.save();
+    ctx.beginPath();
+    ctx.rect(0, 0, fieldWidth, fieldHeight);
+    ctx.clip();
 
     const background = world.background ?? {};
     const fieldGradient = ctx.createLinearGradient(0, 0, 0, fieldHeight);
@@ -165,6 +169,9 @@ export class Renderer {
     for (const enemy of world.enemies) this.drawEnemy(ctx, enemy);
     this.drawPlayer(ctx, world.player);
 
+    // Restore the field transform while keeping the outer canvas transform, then
+    // draw the border above clipped contents so entry/exit sprites never leak into the HUD.
+    ctx.restore();
     ctx.strokeStyle = 'rgba(150, 246, 255, 0.75)';
     ctx.lineWidth = 2;
     ctx.strokeRect(1, 1, fieldWidth - 2, fieldHeight - 2);

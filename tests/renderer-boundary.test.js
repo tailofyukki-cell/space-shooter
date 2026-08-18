@@ -1,0 +1,63 @@
+import assert from 'node:assert/strict';
+import { Renderer } from '../src/render/Renderer.js';
+
+const operations = [];
+const context = {
+  save: () => operations.push('save'),
+  restore: () => operations.push('restore'),
+  translate: () => operations.push('translate'),
+  beginPath: () => operations.push('beginPath'),
+  rect: () => operations.push('rect'),
+  clip: () => operations.push('clip'),
+  fillRect: () => operations.push('fillRect'),
+  strokeRect: () => operations.push('strokeRect'),
+  createLinearGradient: () => ({ addColorStop: () => {} }),
+  createRadialGradient: () => ({ addColorStop: () => {} }),
+  arc: () => operations.push('arc'),
+  fill: () => operations.push('fill'),
+  stroke: () => operations.push('stroke'),
+  drawImage: () => operations.push('drawImage'),
+  set globalAlpha(value) { operations.push(`alpha:${value}`); },
+  set fillStyle(value) { operations.push('fillStyle'); },
+  set strokeStyle(value) { operations.push('strokeStyle'); },
+  set lineWidth(value) { operations.push('lineWidth'); },
+};
+
+const canvas = { getContext: () => context };
+const data = {
+  manifest: {
+    title: 'Boundary Test',
+    display: { width: 1280, height: 720, fieldWidth: 960, fieldHeight: 540 },
+    gameplay: { scrollAxis: 'horizontal' },
+  },
+  text: {},
+};
+const renderer = new Renderer(canvas, data);
+renderer.stars = [];
+renderer.drawParticles = () => operations.push('particles');
+renderer.drawBullet = () => operations.push('bullet');
+renderer.drawEnemy = () => operations.push('enemy');
+renderer.drawPlayer = () => operations.push('player');
+
+renderer.drawField(context, {
+  background: {},
+  bullets: [{ x: -30, y: -30 }],
+  enemies: [{ x: 1000, y: 200 }],
+  player: { x: 80, y: 270 },
+});
+
+const clipIndex = operations.indexOf('clip');
+const firstGameplayDrawIndex = Math.min(
+  operations.indexOf('particles'),
+  operations.indexOf('bullet'),
+  operations.indexOf('enemy'),
+  operations.indexOf('player'),
+);
+const borderIndex = operations.lastIndexOf('strokeRect');
+const restoreBeforeBorder = operations.lastIndexOf('restore', borderIndex);
+
+assert.ok(clipIndex >= 0, 'プレイフィールド描画はCanvasクリッピングを有効化すること');
+assert.ok(clipIndex < firstGameplayDrawIndex, '弾・敵・自機を描画する前にクリッピングを開始すること');
+assert.ok(restoreBeforeBorder > firstGameplayDrawIndex, 'フィールド枠線はクリッピングの外側に描画すること');
+
+console.log('renderer boundary test: OK');
