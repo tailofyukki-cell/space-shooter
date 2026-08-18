@@ -13,6 +13,7 @@
     "test:smoke": "node tests/world-smoke.test.js astral-bloom && node tests/world-smoke.test.js demo-engine",
     "test:settings": "node tests/settings-store.test.js",
     "test:astral-playtest": "node tests/astral-playtest.test.js",
+    "test:art-assets": "node tests/art-assets.test.js",
     "serve": "python3 -m http.server 4173",
     "desktop:dev": "electron .",
     "build:win": "electron-builder --win nsis portable --x64 --publish never",

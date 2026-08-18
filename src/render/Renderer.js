@@ -12,9 +12,30 @@ export class Renderer {
     this.canvas.height = this.display.height;
     this.fieldX = (this.display.width - this.display.fieldWidth) / 2;
     this.fieldY = (this.display.height - this.display.fieldHeight) / 2;
+    this.visuals = data.manifest.visuals ?? {};
+    this.images = new Map();
+    this.backgroundOffset = 0;
+    this.backgroundSpeed = 24;
     this.stars = [];
     this.particles = [];
     this.seedStars();
+    this.loadVisuals();
+  }
+
+  loadVisuals() {
+    if (this.visuals.background) this.loadImage('background', this.visuals.background);
+    for (const [key, source] of Object.entries(this.visuals.sprites ?? {})) {
+      this.loadImage(`sprite:${key}`, source);
+    }
+  }
+
+  loadImage(key, source) {
+    if (typeof Image === 'undefined' || !source) return;
+    const image = new Image();
+    image.decoding = 'async';
+    image.onload = () => this.images.set(key, image);
+    image.onerror = () => {};
+    image.src = encodeURI(source);
   }
 
   seedStars() {
@@ -29,6 +50,9 @@ export class Renderer {
   }
 
   update(dt) {
+    if (this.scrollAxis === 'horizontal') {
+      this.backgroundOffset = (this.backgroundOffset + this.backgroundSpeed * dt) % this.display.fieldWidth;
+    }
     for (const star of this.stars) {
       if (this.scrollAxis === 'horizontal') {
         star.x -= star.speed * dt;
@@ -74,6 +98,7 @@ export class Renderer {
 
   render(world) {
     const ctx = this.ctx;
+    this.backgroundSpeed = world.background?.scrollSpeed ?? this.backgroundSpeed;
     this.drawBackdrop(ctx);
     this.drawField(ctx, world);
     this.drawSidePanels(ctx, world);
@@ -106,6 +131,21 @@ export class Renderer {
     fieldGradient.addColorStop(1, background.secondaryColor ?? '#1f0c3c');
     ctx.fillStyle = fieldGradient;
     ctx.fillRect(0, 0, fieldWidth, fieldHeight);
+
+    const backgroundImage = this.images.get('background');
+    if (backgroundImage) {
+      // Stage artwork is intentionally non-seamless. Keep it stable and use the star layer
+      // for motion so a hard duplicate seam never crosses the bullet-dense play space.
+      ctx.globalAlpha = 0.92;
+      ctx.drawImage(backgroundImage, 0, 0, fieldWidth, fieldHeight);
+      ctx.globalAlpha = 1;
+      const readabilityShade = ctx.createLinearGradient(0, 0, fieldWidth, 0);
+      readabilityShade.addColorStop(0, 'rgba(1, 8, 27, 0.28)');
+      readabilityShade.addColorStop(0.48, 'rgba(1, 8, 27, 0.08)');
+      readabilityShade.addColorStop(1, 'rgba(1, 8, 27, 0.16)');
+      ctx.fillStyle = readabilityShade;
+      ctx.fillRect(0, 0, fieldWidth, fieldHeight);
+    }
 
     for (const star of this.stars) {
       ctx.globalAlpha = star.alpha;
@@ -164,6 +204,22 @@ export class Renderer {
   drawEnemy(ctx, enemy) {
     ctx.save();
     ctx.translate(enemy.x, enemy.y);
+    const sprite = this.images.get(`sprite:${enemy.id}`);
+    if (sprite) {
+      const sizes = {
+        pollen_scout: [56, 42],
+        petal_wisp: [68, 56],
+        crystal_gardener: [96, 80],
+        flora_orbis: [190, 152],
+      };
+      const [width, height] = sizes[enemy.id] ?? (enemy.isBoss ? [190, 152] : [64, 52]);
+      if (!enemy.isBoss) ctx.rotate(Math.sin(enemy.age * 3) * 0.045);
+      ctx.shadowBlur = enemy.isBoss ? 17 : 9;
+      ctx.shadowColor = enemy.definition.color ?? '#ffffff';
+      ctx.drawImage(sprite, -width / 2, -height / 2, width, height);
+      ctx.restore();
+      return;
+    }
     const color = enemy.definition.color ?? '#ff7093';
     ctx.shadowBlur = enemy.isBoss ? 24 : 12;
     ctx.shadowColor = color;
@@ -209,6 +265,22 @@ export class Renderer {
 
     ctx.save();
     ctx.translate(player.x, player.y);
+    const sprite = this.images.get('sprite:player');
+    if (sprite) {
+      ctx.shadowBlur = 13;
+      ctx.shadowColor = '#72f7ff';
+      ctx.drawImage(sprite, -38, -24, 76, 48);
+      if (player.focused) {
+        ctx.shadowBlur = 0;
+        ctx.strokeStyle = 'rgba(255,255,255,0.9)';
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.arc(0, 0, player.hitboxRadius + 3, 0, TAU);
+        ctx.stroke();
+      }
+      ctx.restore();
+      return;
+    }
     ctx.shadowBlur = 18;
     ctx.shadowColor = '#72f7ff';
     ctx.fillStyle = '#72f7ff';

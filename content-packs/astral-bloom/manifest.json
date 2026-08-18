@@ -26,6 +26,16 @@
   "stages": [
     "stages/stage_glassrain_01.json"
   ],
+  "visuals": {
+    "background": "assets/astral-bloom/images/backgrounds/stage01_glassrain_garden_game.jpg",
+    "sprites": {
+      "player": "assets/astral-bloom/images/sprites/player_cadenza7_game.png",
+      "pollen_scout": "assets/astral-bloom/images/sprites/enemy_pollen_scout_game.png",
+      "petal_wisp": "assets/astral-bloom/images/sprites/enemy_petal_wisp_game.png",
+      "crystal_gardener": "assets/astral-bloom/images/sprites/enemy_crystal_gardener_game.png",
+      "flora_orbis": "assets/astral-bloom/images/sprites/boss_flora_orbis_game.png"
+    }
+  },
   "assets": {
     "bg_stage01": "assets/astral-bloom/audio/bgm/glassrain-garden.ogg",
     "bg_boss01": "assets/astral-bloom/audio/bgm/flora-orbis.ogg",
