@@ -5,9 +5,10 @@ export class Enemy {
     this.active = false;
   }
 
-  reset({ id, definition, x, y }) {
+  reset({ id, typeId, definition, x, y }) {
     this.active = true;
     this.id = id;
+    this.typeId = typeId ?? id;
     this.definition = definition;
     this.x = x;
     this.y = y;

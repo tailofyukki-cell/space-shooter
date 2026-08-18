@@ -96,6 +96,7 @@ export class GameWorld {
     if (!definition) return null;
     const enemy = this.enemyPool.acquire({
       id: `${enemyId}:${this.entitySequence += 1}`,
+      typeId: enemyId,
       definition,
       x,
       y,

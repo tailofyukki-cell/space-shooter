@@ -12,10 +12,10 @@
 | --- | --- | --- | --- |
 | `stage01_garden_bg` | `assets/astral-bloom/images/backgrounds/stage01_glassrain_garden_game.jpg` | 横長の硝子雨の庭園背景。非シームレスのため静止配置し、星レイヤーで右→左の移動感を補う。 | 統合済み |
 | `player_cadenza7` | `assets/astral-bloom/images/sprites/player_cadenza7_game.png` | 自機〈カデンツァ7〉。右向きの青緑・白の迎撃機。 | 統合済み |
-| `enemy_pollen_scout` | `assets/astral-bloom/images/sprites/enemy_pollen_scout_game.png` | 花粉偵察機。左向きの小型花弁ドローン。 | 統合済み |
-| `enemy_petal_wisp` | `assets/astral-bloom/images/sprites/enemy_petal_wisp_game.png` | 花弁精霊。左向きの蛇行敵。 | 統合済み |
-| `enemy_crystal_gardener` | `assets/astral-bloom/images/sprites/enemy_crystal_gardener_game.png` | 結晶ガーデナー。水晶温室を模した中型敵。 | 統合済み |
-| `boss_flora_orbis` | `assets/astral-bloom/images/sprites/boss_flora_orbis_game.png` | フローラ・オルビス。桜の花冠と深紅の制御核を持つボス。 | 統合済み |
+| `enemy_pollen_scout` | `assets/astral-bloom/images/sprites/enemy_pollen_scout_game.png` | 花粉偵察機。黄緑の単眼、三枚の黒紫機械花弁翼、左向きの小型迎撃ドローン。 | 刷新・統合済み |
+| `enemy_petal_wisp` | `assets/astral-bloom/images/sprites/enemy_petal_wisp_game.png` | 花弁精霊。青緑の硝子核と五枚の刃状花弁を持つ、左向きの蛇行敵。 | 刷新・統合済み |
+| `enemy_crystal_gardener` | `assets/astral-bloom/images/sprites/enemy_crystal_gardener_game.png` | 結晶ガーデナー。深緑の六角温室、剪定アーム、黒曜石装甲を持つ中型整備機。 | 刷新・統合済み |
+| `boss_flora_orbis` | `assets/astral-bloom/images/sprites/boss_flora_orbis_game.png` | フローラ・オルビス。深紅の結晶核、六枚の装甲花弁、硝子軌道リングを持つ第1ステージボス。 | 刷新・統合済み |
 
 これらは `content-packs/astral-bloom/manifest.json` の `visuals` から参照する。別作品へ展開する際は、同じ論理キーを別の画像ファイルへ差し替えるだけで、既存の敵・ボス・ステージロジックを保ったままアートを置換できる。画像読込に失敗した場合はCanvasの図形描画が表示される。
 

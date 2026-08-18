@@ -6,6 +6,7 @@ const context = {
   save: () => operations.push('save'),
   restore: () => operations.push('restore'),
   translate: () => operations.push('translate'),
+  rotate: () => operations.push('rotate'),
   beginPath: () => operations.push('beginPath'),
   rect: () => operations.push('rect'),
   clip: () => operations.push('clip'),
@@ -33,6 +34,7 @@ const data = {
   text: {},
 };
 const renderer = new Renderer(canvas, data);
+const actualDrawEnemy = renderer.drawEnemy.bind(renderer);
 renderer.stars = [];
 renderer.drawParticles = () => operations.push('particles');
 renderer.drawBullet = () => operations.push('bullet');
@@ -59,5 +61,16 @@ const restoreBeforeBorder = operations.lastIndexOf('restore', borderIndex);
 assert.ok(clipIndex >= 0, 'プレイフィールド描画はCanvasクリッピングを有効化すること');
 assert.ok(clipIndex < firstGameplayDrawIndex, '弾・敵・自機を描画する前にクリッピングを開始すること');
 assert.ok(restoreBeforeBorder > firstGameplayDrawIndex, 'フィールド枠線はクリッピングの外側に描画すること');
+
+operations.length = 0;
+renderer.images.set('sprite:pollen_scout', { width: 64, height: 48 });
+actualDrawEnemy(context, {
+  id: 'pollen_scout:7',
+  typeId: 'pollen_scout',
+  age: 0,
+  isBoss: false,
+  definition: { color: '#96ff6a' },
+});
+assert.ok(operations.includes('drawImage'), '敵の一意IDではなくタイプIDから実スプライトを描画すること');
 
 console.log('renderer boundary test: OK');

@@ -211,15 +211,15 @@ export class Renderer {
   drawEnemy(ctx, enemy) {
     ctx.save();
     ctx.translate(enemy.x, enemy.y);
-    const sprite = this.images.get(`sprite:${enemy.id}`);
+    const sprite = this.images.get(`sprite:${enemy.typeId ?? enemy.id}`);
     if (sprite) {
       const sizes = {
-        pollen_scout: [56, 42],
-        petal_wisp: [68, 56],
-        crystal_gardener: [96, 80],
-        flora_orbis: [190, 152],
+        pollen_scout: [64, 48],
+        petal_wisp: [82, 64],
+        crystal_gardener: [112, 90],
+        flora_orbis: [230, 182],
       };
-      const [width, height] = sizes[enemy.id] ?? (enemy.isBoss ? [190, 152] : [64, 52]);
+      const [width, height] = sizes[enemy.typeId ?? enemy.id] ?? (enemy.isBoss ? [230, 182] : [64, 52]);
       if (!enemy.isBoss) ctx.rotate(Math.sin(enemy.age * 3) * 0.045);
       ctx.shadowBlur = enemy.isBoss ? 17 : 9;
       ctx.shadowColor = enemy.definition.color ?? '#ffffff';
