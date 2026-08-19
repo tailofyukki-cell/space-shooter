@@ -39,5 +39,8 @@ const main = await readFile(new URL('../src/main.js', import.meta.url), 'utf8');
 assert.match(html, /id="ending-screen"/, 'エンディング画面コンテナが存在すること');
 assert.match(main, /isFinalCampaignStage\(stage\)/, '最終ステージだけをエンディングへ遷移させること');
 assert.match(main, /showEnding\(/, 'エンディング表示処理が接続されていること');
+assert.match(main, /nextCampaignStage\(stage\)/, '通常ステージクリア時に次ステージを解決すること');
+assert.match(main, /world\.beginCampaignTransition\(nextStage\.id\)/, '通常ステージクリア時は次ステージ遷移状態へ入ること');
+assert.match(main, /startStage\(nextStage\.id, \{ preservePlayer: true \}\)/, '次ステージ開始時にプレイヤー状態を維持すること');
 
 console.log('ending flow test: OK');

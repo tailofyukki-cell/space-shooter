@@ -7,16 +7,16 @@ export class Player {
     this.reset();
   }
 
-  reset({ lives, bombs } = {}) {
+  reset({ lives, bombs, score = 0, graze = 0, invincibility } = {}) {
     const [spawnX, spawnY] = this.definition.spawn ?? [this.bounds.width / 2, this.bounds.height - 104];
     this.x = clamp(spawnX, 18, this.bounds.width - 18);
     this.y = clamp(spawnY, 28, this.bounds.height - 24);
     this.lives = Number.isFinite(lives) ? lives : this.definition.lives;
     this.bombs = Number.isFinite(bombs) ? bombs : this.definition.bombs;
-    this.score = 0;
-    this.graze = 0;
+    this.score = Number.isFinite(score) ? score : 0;
+    this.graze = Number.isFinite(graze) ? graze : 0;
     this.shotTimer = 0;
-    this.invincibleTimer = 1.5;
+    this.invincibleTimer = Number.isFinite(invincibility) ? invincibility : 1.5;
     this.bombTimer = 0;
     this.focused = false;
     this.active = true;

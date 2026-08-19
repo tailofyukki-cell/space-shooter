@@ -3,7 +3,7 @@ import { InputManager } from './core/InputManager.js';
 import { SettingsStore } from './core/SettingsStore.js';
 import { GameDataLoader } from './content/GameDataLoader.js';
 import { GameWorld } from './gameplay/GameWorld.js';
-import { Renderer } from './render/Renderer.js?v=astral-stagehud-01';
+import { Renderer } from './render/Renderer.js?v=astral-campaign-transition-01';
 
 const STEP_SECONDS = 1 / 60;
 const MAX_FRAME_SECONDS = 0.12;
@@ -111,6 +111,16 @@ async function bootstrap() {
       .map((fileId) => data.stages[fileId]?.id ?? Object.values(data.stages).find((stage) => stage.id === fileId)?.id)
       .filter(Boolean);
     const isFinalCampaignStage = (stage) => campaignStageIds.at(-1) === stage?.id;
+    const nextCampaignStage = (stage) => {
+      const index = campaignStageIds.indexOf(stage?.id);
+      const nextId = index >= 0 ? campaignStageIds[index + 1] : null;
+      return nextId ? data.stages[nextId] : null;
+    };
+    let campaignTransitionTimer = null;
+    const cancelCampaignTransition = () => {
+      if (campaignTransitionTimer !== null) window.clearTimeout(campaignTransitionTimer);
+      campaignTransitionTimer = null;
+    };
 
     elements.titleText.textContent = data.text['game.title'] ?? data.manifest.title;
     elements.subtitleText.textContent = data.text['game.subtitle'] ?? '';
@@ -135,6 +145,7 @@ async function bootstrap() {
     };
 
     const showTitle = () => {
+      cancelCampaignTransition();
       audio.stopMusic();
       world.state = 'title';
       input.enabled = true;
@@ -142,12 +153,13 @@ async function bootstrap() {
       setHidden(elements.title, false);
     };
 
-    const startStage = (requestedStageId = stageId) => {
+    const startStage = (requestedStageId = stageId, { preservePlayer = false } = {}) => {
+      cancelCampaignTransition();
       audio.unlock();
       pendingStageId = requestedStageId;
       hideTransientScreens();
       input.enabled = true;
-      world.startStage(requestedStageId);
+      world.startStage(requestedStageId, { preservePlayer });
     };
 
     const showDifficultySelect = (requestedStageId = stageId) => {
@@ -260,9 +272,22 @@ async function bootstrap() {
     world.on('stageClear', ({ stage }) => {
       if (data.manifest.campaign?.endingAfterFinalStage && isFinalCampaignStage(stage)) {
         showEnding({ stage, score: world.player.score });
-      } else {
-        showResult('clear', world.player.score);
+        return;
       }
+
+      const nextStage = nextCampaignStage(stage);
+      if (!nextStage) {
+        showResult('clear', world.player.score);
+        return;
+      }
+
+      world.beginCampaignTransition(nextStage.id);
+      input.enabled = false;
+      announce(`STAGE CLEAR // ${stage.title}\nNEXT MISSION // ${nextStage.title} — ${nextStage.subtitle ?? nextStage.id}`);
+      campaignTransitionTimer = window.setTimeout(() => {
+        campaignTransitionTimer = null;
+        startStage(nextStage.id, { preservePlayer: true });
+      }, 2600);
     });
     world.on('gameOver', ({ score }) => showResult('gameover', score));
     world.on('announce', ({ textKey }) => announce(data.text[textKey] ?? textKey));

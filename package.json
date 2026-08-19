@@ -15,6 +15,7 @@
     "test:midboss": "node tests/midboss.test.js",
     "test:difficulty": "node tests/difficulty.test.js",
     "test:ending-flow": "node tests/ending-flow.test.js",
+    "test:campaign-transition": "node tests/campaign-transition.test.js",
     "test:settings": "node tests/settings-store.test.js",
     "test:astral-playtest": "node tests/astral-playtest.test.js",
     "test:art-assets": "node tests/art-assets.test.js",

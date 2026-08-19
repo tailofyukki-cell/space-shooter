@@ -427,7 +427,8 @@ export class Renderer {
   }
 
   drawStageHud(ctx, world) {
-    const stage = world.stage;
+    const transitioning = world.state === 'transition' && world.nextStage;
+    const stage = transitioning ? world.nextStage : world.stage;
     if (!stage) return;
 
     const timeline = stage.timeline ?? [];
@@ -437,12 +438,14 @@ export class Renderer {
     const finalBoss = world.stageRunner?.boss;
     const activeMidboss = world.enemies?.find((enemy) => enemy.active && enemy.isMidboss);
     const finalBossActive = Boolean(finalBoss?.active && !finalBoss?.dead);
-    const progress = finalBossActive ? 1 : Math.min(1, elapsed / timelineHorizon);
-    const status = finalBossActive
-      ? 'FINAL ENCOUNTER'
-      : activeMidboss
-        ? 'SUB BOSS ENCOUNTER'
-        : 'MISSION PROGRESS';
+    const progress = transitioning ? 0 : finalBossActive ? 1 : Math.min(1, elapsed / timelineHorizon);
+    const status = transitioning
+      ? 'NEXT MISSION'
+      : finalBossActive
+        ? 'FINAL ENCOUNTER'
+        : activeMidboss
+          ? 'SUB BOSS ENCOUNTER'
+          : 'MISSION PROGRESS';
 
     const x = this.fieldX + 18;
     const y = this.fieldY + 18;
@@ -456,7 +459,7 @@ export class Renderer {
 
     ctx.textAlign = 'left';
     ctx.font = '800 10px ui-monospace, monospace';
-    ctx.fillStyle = finalBossActive ? '#ffc4ef' : activeMidboss ? '#ffe178' : '#9df6ff';
+    ctx.fillStyle = transitioning ? '#9dffc1' : finalBossActive ? '#ffc4ef' : activeMidboss ? '#ffe178' : '#9df6ff';
     ctx.fillText(status, x + 10, y + 14);
     ctx.font = '800 15px system-ui, sans-serif';
     ctx.fillStyle = '#ffffff';
@@ -467,7 +470,7 @@ export class Renderer {
 
     ctx.fillStyle = 'rgba(6, 20, 46, 0.9)';
     ctx.fillRect(x + 10, y + 51, width - 20, 4);
-    ctx.fillStyle = finalBossActive ? '#ec7ee3' : activeMidboss ? '#ffe37a' : '#78eaff';
+    ctx.fillStyle = transitioning ? '#84f0a8' : finalBossActive ? '#ec7ee3' : activeMidboss ? '#ffe37a' : '#78eaff';
     ctx.fillRect(x + 10, y + 51, (width - 20) * progress, 4);
     ctx.restore();
   }

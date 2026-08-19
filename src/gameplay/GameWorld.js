@@ -41,6 +41,7 @@ export class GameWorld {
     this.state = 'title';
     this.stage = null;
     this.stageRunner = null;
+    this.nextStage = null;
     this.background = null;
     this.difficultyId = 'normal';
     this.difficultyPresets = data.manifest.difficultyPresets ?? { normal: FALLBACK_DIFFICULTY };
@@ -65,7 +66,7 @@ export class GameWorld {
     for (const handler of this.listeners.get(name) ?? []) handler(payload);
   }
 
-  startStage(stageId) {
+  startStage(stageId, { preservePlayer = false } = {}) {
     const definition = this.data.stages[stageId];
     if (!definition) throw new Error(`ステージ「${stageId}」が見つかりません。`);
 
@@ -73,15 +74,42 @@ export class GameWorld {
     this.bulletPool.deactivateAll();
     this.patternRunner.clear();
     this.entitySequence = 0;
-    this.player.reset({
-      lives: this.difficulty.playerLives,
-      bombs: this.difficulty.playerBombs,
-    });
+    const carry = preservePlayer
+      ? {
+          lives: this.player.lives,
+          bombs: this.player.bombs,
+          score: this.player.score,
+          graze: this.player.graze,
+          invincibility: 2.25,
+        }
+      : {
+          lives: this.difficulty.playerLives,
+          bombs: this.difficulty.playerBombs,
+        };
+    this.player.reset(carry);
     this.stage = definition;
     this.background = definition.background;
+    this.nextStage = null;
     this.stageRunner = new StageRunner(definition);
     this.state = 'playing';
     this.stageRunner.start(this);
+  }
+
+  beginCampaignTransition(nextStageId) {
+    const definition = this.data.stages[nextStageId];
+    if (!definition) throw new Error(`次ステージ「${nextStageId}」が見つかりません。`);
+    this.nextStage = definition;
+    this.state = 'transition';
+    this.emit('campaignTransition', {
+      fromStage: this.stage,
+      nextStage: definition,
+      carry: {
+        lives: this.player.lives,
+        bombs: this.player.bombs,
+        score: this.player.score,
+        graze: this.player.graze,
+      },
+    });
   }
 
   update(dt, input) {
