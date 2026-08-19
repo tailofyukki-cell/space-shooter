@@ -497,3 +497,10 @@ kbd {
     min-height: 0;
   }
 }
+
+/* Stage labels are intentionally explicit during campaign play; keep long JP/EN labels readable. */
+.announcement {
+  font-size: clamp(0.82rem, 1.75vw, 1.08rem);
+  line-height: 1.45;
+  letter-spacing: 0.06em;
+}

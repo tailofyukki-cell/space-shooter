@@ -3,7 +3,7 @@ import { InputManager } from './core/InputManager.js';
 import { SettingsStore } from './core/SettingsStore.js';
 import { GameDataLoader } from './content/GameDataLoader.js';
 import { GameWorld } from './gameplay/GameWorld.js';
-import { Renderer } from './render/Renderer.js?v=astral-stage34-midboss-01';
+import { Renderer } from './render/Renderer.js?v=astral-stagehud-01';
 
 const STEP_SECONDS = 1 / 60;
 const MAX_FRAME_SECONDS = 0.12;
@@ -229,6 +229,11 @@ async function bootstrap() {
       elements.endingRetryButton.focus();
     };
 
+    const stageLabel = (stage = world.stage) => {
+      if (!stage) return 'MISSION';
+      return `${stage.title ?? stage.id}${stage.subtitle ? ` — ${stage.subtitle}` : ''}`;
+    };
+
     const announce = (text) => {
       elements.announcement.textContent = text;
       setHidden(elements.announcement, false);
@@ -246,8 +251,10 @@ async function bootstrap() {
     world.on('playerHit', ({ x, y }) => renderer.burst(x, y, { color: '#f9fdff', count: 42, power: 180 }));
     world.on('bomb', (payload) => renderer.startBomb(payload));
     world.on('graze', ({ x, y }) => renderer.burst(x, y, { color: '#c5e7ff', count: 3, power: 34 }));
-    world.on('phaseChange', ({ phase }) => announce(phase?.name ?? 'PHASE CHANGE'));
-    world.on('midbossStart', ({ midboss }) => announce(`SUB BOSS // ${midboss?.definition?.name ?? 'UNKNOWN'}`));
+    world.on('stageStart', ({ stage }) => announce(`MISSION START // ${stageLabel(stage)}`));
+    world.on('phaseChange', ({ phase }) => announce(`${stageLabel()} // PHASE ${phase?.name ?? 'CHANGE'}`));
+    world.on('midbossStart', ({ midboss }) => announce(`${stageLabel()} // SUB BOSS — ${midboss?.definition?.name ?? 'UNKNOWN'}`));
+    world.on('bossStart', ({ boss }) => announce(`${stageLabel()} // FINAL BOSS — ${boss?.definition?.name ?? 'UNKNOWN'}`));
     world.on('music', ({ id }) => audio.playMusic(id));
     world.on('sound', ({ id, volume, duckMusic = false }) => audio.playEffect(id, { volume, duckMusic }));
     world.on('stageClear', ({ stage }) => {

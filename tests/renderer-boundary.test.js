@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import { Renderer } from '../src/render/Renderer.js';
 
 const operations = [];
+const texts = [];
 const context = {
   save: () => operations.push('save'),
   restore: () => operations.push('restore'),
@@ -18,7 +19,7 @@ const context = {
   fill: () => operations.push('fill'),
   stroke: () => operations.push('stroke'),
   drawImage: () => operations.push('drawImage'),
-  fillText: () => operations.push('fillText'),
+  fillText: (text) => { operations.push('fillText'); texts.push(String(text)); },
   set globalAlpha(value) { operations.push(`alpha:${value}`); },
   set fillStyle(value) { operations.push('fillStyle'); },
   set strokeStyle(value) { operations.push('strokeStyle'); },
@@ -81,5 +82,16 @@ assert.ok(operations.includes('fillText'), 'ボム演出は発動名とキャン
 assert.ok(operations.includes('stroke'), 'ボム演出は視認可能な星環を描画すること');
 renderer.update(2);
 assert.equal(renderer.bombEffect, null, 'ボム演出は持続時間後に終了すること');
+
+operations.length = 0;
+texts.length = 0;
+renderer.drawStageHud(context, {
+  stage: { id: 'stage_eclipse_03', title: 'STAGE 03 — 星蝕の外環樹海', subtitle: 'Eclipse Canopy', timeline: [{ at: 0.8 }, { at: 65, type: 'boss' }] },
+  stageRunner: { elapsed: 24, boss: null },
+  enemies: [],
+});
+assert.ok(texts.includes('MISSION PROGRESS'), '通常進行中はミッション進行状態を表示すること');
+assert.ok(texts.includes('STAGE 03 — 星蝕の外環樹海'), '常時HUDに現在のステージ名を表示すること');
+assert.ok(texts.includes('Eclipse Canopy'), '常時HUDに現在のステージ副題を表示すること');
 
 console.log('renderer boundary test: OK');

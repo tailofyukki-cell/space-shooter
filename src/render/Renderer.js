@@ -122,6 +122,7 @@ export class Renderer {
     this.drawBackdrop(ctx);
     this.drawField(ctx, world);
     this.drawSidePanels(ctx, world);
+    this.drawStageHud(ctx, world);
   }
 
   drawBackdrop(ctx) {
@@ -422,6 +423,52 @@ export class Renderer {
     ctx.strokeStyle = '#ffffff';
     ctx.lineWidth = 1;
     ctx.strokeRect(x, y, width, 11);
+    ctx.restore();
+  }
+
+  drawStageHud(ctx, world) {
+    const stage = world.stage;
+    if (!stage) return;
+
+    const timeline = stage.timeline ?? [];
+    const finalBossEvent = timeline.find((event) => event.type === 'boss');
+    const timelineHorizon = Math.max(1, finalBossEvent?.at ?? timeline.at(-1)?.at ?? 1);
+    const elapsed = world.stageRunner?.elapsed ?? 0;
+    const finalBoss = world.stageRunner?.boss;
+    const activeMidboss = world.enemies?.find((enemy) => enemy.active && enemy.isMidboss);
+    const finalBossActive = Boolean(finalBoss?.active && !finalBoss?.dead);
+    const progress = finalBossActive ? 1 : Math.min(1, elapsed / timelineHorizon);
+    const status = finalBossActive
+      ? 'FINAL ENCOUNTER'
+      : activeMidboss
+        ? 'SUB BOSS ENCOUNTER'
+        : 'MISSION PROGRESS';
+
+    const x = this.fieldX + 18;
+    const y = this.fieldY + 18;
+    const width = 268;
+    ctx.save();
+    ctx.fillStyle = 'rgba(3, 10, 29, 0.72)';
+    ctx.fillRect(x, y, width, 58);
+    ctx.strokeStyle = 'rgba(136, 242, 255, 0.64)';
+    ctx.lineWidth = 1;
+    ctx.strokeRect(x, y, width, 58);
+
+    ctx.textAlign = 'left';
+    ctx.font = '800 10px ui-monospace, monospace';
+    ctx.fillStyle = finalBossActive ? '#ffc4ef' : activeMidboss ? '#ffe178' : '#9df6ff';
+    ctx.fillText(status, x + 10, y + 14);
+    ctx.font = '800 15px system-ui, sans-serif';
+    ctx.fillStyle = '#ffffff';
+    ctx.fillText(stage.title ?? stage.id, x + 10, y + 33);
+    ctx.font = '600 10px ui-monospace, monospace';
+    ctx.fillStyle = '#bfd4ff';
+    ctx.fillText(stage.subtitle ?? stage.id, x + 10, y + 47);
+
+    ctx.fillStyle = 'rgba(6, 20, 46, 0.9)';
+    ctx.fillRect(x + 10, y + 51, width - 20, 4);
+    ctx.fillStyle = finalBossActive ? '#ec7ee3' : activeMidboss ? '#ffe37a' : '#78eaff';
+    ctx.fillRect(x + 10, y + 51, (width - 20) * progress, 4);
     ctx.restore();
   }
 
