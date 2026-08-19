@@ -1,7 +1,7 @@
 {
   "id": "com.tailofyukki.astral-bloom",
   "title": "ASTRAL BLOOM",
-  "version": "0.4.0-difficulty-ending-prototype",
+  "version": "0.5.0-four-stage-midboss-prototype",
   "locale": "ja",
   "display": {
     "width": 1280,
@@ -64,13 +64,17 @@
   },
   "stages": [
     "stages/stage_glassrain_01.json",
-    "stages/stage_moonrain_02.json"
+    "stages/stage_moonrain_02.json",
+    "stages/stage_eclipse_03.json",
+    "stages/stage_core_04.json"
   ],
   "visuals": {
     "background": "assets/astral-bloom/images/backgrounds/stage01_glassrain_garden_game.jpg",
     "backgrounds": {
       "stage_glassrain_01": "assets/astral-bloom/images/backgrounds/stage01_glassrain_garden_game.jpg",
-      "stage_moonrain_02": "assets/astral-bloom/images/backgrounds/stage02_moonrain_conduit_game.jpg"
+      "stage_moonrain_02": "assets/astral-bloom/images/backgrounds/stage02_moonrain_conduit_game.jpg",
+      "stage_eclipse_03": "assets/astral-bloom/images/backgrounds/stage03_eclipse_canopy_game.jpg",
+      "stage_core_04": "assets/astral-bloom/images/backgrounds/stage04_astral_core_game.jpg"
     },
     "sprites": {
       "player": "assets/astral-bloom/images/sprites/player_cadenza7_game.png",
@@ -78,7 +82,11 @@
       "petal_wisp": "assets/astral-bloom/images/sprites/enemy_petal_wisp_game.png",
       "crystal_gardener": "assets/astral-bloom/images/sprites/enemy_crystal_gardener_game.png",
       "flora_orbis": "assets/astral-bloom/images/sprites/boss_flora_orbis_game.png",
-      "lumen_archon": "assets/astral-bloom/images/sprites/lumen_archon_game.png"
+      "lumen_archon": "assets/astral-bloom/images/sprites/lumen_archon_game.png",
+      "tessa_reave": "assets/astral-bloom/images/sprites/tessa_reave_game.png",
+      "nox_reave": "assets/astral-bloom/images/sprites/nox_reave_game.png",
+      "aurea_eclipse": "assets/astral-bloom/images/sprites/aurea_eclipse_game.png",
+      "garden_heart": "assets/astral-bloom/images/sprites/garden_heart_game.png"
     }
   },
   "assets": {

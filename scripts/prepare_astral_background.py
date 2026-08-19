@@ -5,6 +5,8 @@ ROOT = Path('/home/ubuntu/space-shooter-engine')
 BACKGROUND_SOURCES = (
     ('stage01_glassrain_garden.png', 'stage01_glassrain_garden_game.jpg'),
     ('stage02_moonrain_conduit_source.png', 'stage02_moonrain_conduit_game.jpg'),
+    ('stage03_eclipse_canopy_source.png', 'stage03_eclipse_canopy_game.jpg'),
+    ('stage04_astral_core_source.png', 'stage04_astral_core_game.jpg'),
 )
 
 for source_name, target_name in BACKGROUND_SOURCES:

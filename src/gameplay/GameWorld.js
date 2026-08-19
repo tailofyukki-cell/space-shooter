@@ -208,9 +208,9 @@ export class GameWorld {
   destroyEnemy(enemy) {
     this.patternRunner.detach(enemy);
     this.player.addScore(enemy.definition.score ?? 0);
-    this.emit('sound', { id: 'se_enemy_destroy', volume: enemy.isBoss ? 0.9 : 0.45 });
-    this.emit('explosion', { x: enemy.x, y: enemy.y, boss: enemy.isBoss });
-    if (enemy.isBoss) this.clearEnemyBullets();
+    this.emit('sound', { id: 'se_enemy_destroy', volume: enemy.isMajorEnemy ? 0.9 : 0.45 });
+    this.emit('explosion', { x: enemy.x, y: enemy.y, boss: enemy.isMajorEnemy });
+    if (enemy.isMajorEnemy) this.clearEnemyBullets();
   }
 
   clearEnemyBullets() {
@@ -230,7 +230,7 @@ export class GameWorld {
     const targets = [...this.enemyPool.activeItems];
     for (const enemy of targets) {
       if (!enemy.active) continue;
-      if (enemy.isBoss) {
+      if (enemy.isMajorEnemy) {
         if (enemy.takeDamage(34)) {
           this.destroyEnemy(enemy);
         } else if (enemy.phaseChanged) {

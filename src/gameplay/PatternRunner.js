@@ -44,7 +44,7 @@ export class PatternRunner {
   update(dt, world) {
     for (const instance of this.instances) {
       if (!instance.owner.active || instance.owner.dead) continue;
-      if (instance.owner.isBoss && !instance.owner.hasEntered) continue;
+      if (instance.owner.requiresEntry && !instance.owner.hasEntered) continue;
       instance.elapsed += dt;
       const events = instance.definition.events ?? [];
       events.forEach((event, eventIndex) => {

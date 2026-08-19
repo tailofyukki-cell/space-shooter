@@ -1,0 +1,35 @@
+{
+  "id": "stage_eclipse_03",
+  "title": "STAGE 03 — 星蝕の外環樹海",
+  "subtitle": "Eclipse Canopy",
+  "music": "bg_stage01",
+  "background": {
+    "type": "eclipseCanopy",
+    "primaryColor": "#071b20",
+    "secondaryColor": "#35461d",
+    "scrollSpeed": 48,
+    "flow": "rightToLeft"
+  },
+  "timeline": [
+    {"at": 0.8, "type": "announce", "textKey": "stage3.begin"},
+    {"at": 2.0, "type": "spawn", "enemy": "pollen_scout", "x": 1010, "y": 92},
+    {"at": 2.0, "type": "spawn", "enemy": "pollen_scout", "x": 1010, "y": 448},
+    {"at": 4.2, "type": "spawn", "enemy": "petal_wisp", "x": 1010, "y": 176},
+    {"at": 5.2, "type": "spawn", "enemy": "petal_wisp", "x": 1010, "y": 364},
+    {"at": 10.5, "type": "announce", "textKey": "stage3.coronaWatch"},
+    {"at": 11.4, "type": "spawn", "enemy": "crystal_gardener", "x": 1025, "y": 206},
+    {"at": 17.0, "type": "spawn", "enemy": "pollen_scout", "x": 1010, "y": 132},
+    {"at": 17.0, "type": "spawn", "enemy": "pollen_scout", "x": 1010, "y": 408},
+    {"at": 22.0, "type": "spawn", "enemy": "crystal_gardener", "x": 1025, "y": 338},
+    {"at": 29.5, "type": "announce", "textKey": "stage3.reaveDetected"},
+    {"at": 31.2, "type": "midboss", "enemy": "tessa_reave", "x": 1045, "y": 222},
+    {"at": 49.0, "type": "announce", "textKey": "stage3.eclipseOpen"},
+    {"at": 50.0, "type": "spawn", "enemy": "petal_wisp", "x": 1010, "y": 96},
+    {"at": 50.0, "type": "spawn", "enemy": "petal_wisp", "x": 1010, "y": 444},
+    {"at": 54.0, "type": "spawn", "enemy": "pollen_scout", "x": 1010, "y": 270},
+    {"at": 61.0, "type": "announce", "textKey": "stage3.aureaDetected"},
+    {"at": 63.0, "type": "music", "track": "bg_boss01"},
+    {"at": 65.0, "type": "boss", "enemy": "aurea_eclipse", "x": 1045, "y": 270}
+  ],
+  "clear": {"type": "bossDefeat"}
+}

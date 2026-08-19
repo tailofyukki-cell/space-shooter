@@ -18,6 +18,12 @@
 | `boss_flora_orbis` | `assets/astral-bloom/images/sprites/boss_flora_orbis_game.png` | フローラ・オルビス。深紅の結晶核、六枚の装甲花弁、硝子軌道リングを持つ第1ステージボス。 | 刷新・統合済み |
 | `stage02_conduit_bg` | `assets/astral-bloom/images/backgrounds/stage02_moonrain_conduit_game.jpg` | 月虹の導水路背景。中央の回避空間を暗く保った、月光・星水・水晶水門の横長戦闘背景。 | 統合済み |
 | `boss_lumen_archon` | `assets/astral-bloom/images/sprites/lumen_archon_game.png` | ルーメン・アーコン。琥珀の結晶核、銀白の水門環、群青の結晶翼を持つ第2ステージボス。 | 統合済み |
+| `stage03_eclipse_bg` | `assets/astral-bloom/images/backgrounds/stage03_eclipse_canopy_game.jpg` | 星蝕の外環樹海背景。皆既太陽と右側に集約された深緑の軌道植物を持ち、中央レーンの視認性を保つ。 | 統合済み |
+| `midboss_tessa_reave` | `assets/astral-bloom/images/sprites/tessa_reave_game.png` | 冠鎌機テッサ・リーヴ。二本の剪定鎌と琥珀の単眼を持つ第3ステージ中ボス。 | 統合済み |
+| `boss_aurea_eclipse` | `assets/astral-bloom/images/sprites/aurea_eclipse_game.png` | アウレア・エクリプス。皆既冠、太陽花弁、二対のソーラーランスを持つ第3ステージボス。 | 統合済み |
+| `stage04_core_bg` | `assets/astral-bloom/images/backgrounds/stage04_astral_core_game.jpg` | アストラル・ブルーム中枢背景。右側に星核と分光導管を配置した最終戦用の横長背景。 | 統合済み |
+| `midboss_nox_reave` | `assets/astral-bloom/images/sprites/nox_reave_game.png` | 深層接続機ノクス・リーヴ。群青の星核と6本の結晶接続アームを持つ第4ステージ中ボス。 | 統合済み |
+| `boss_garden_heart` | `assets/astral-bloom/images/sprites/garden_heart_game.png` | ガーデン・ハート。白紫の多層花弁、中心星核、軌道リングを持つキャンペーン最終ボス。 | 統合済み |
 
 これらは `content-packs/astral-bloom/manifest.json` の `visuals` から参照する。別作品へ展開する際は、同じ論理キーを別の画像ファイルへ差し替えるだけで、既存の敵・ボス・ステージロジックを保ったままアートを置換できる。画像読込に失敗した場合はCanvasの図形描画が表示される。
 
@@ -35,6 +41,6 @@
 | `se_graze` | SE | グレイズ | 統合済み：短時間連打を抑制したきらめき。 |
 | `se_bomb` | SE | ボム | 統合済み：星環展開の広がりを示す効果音。 |
 
-第2ステージは現時点で `bg_stage01` と `bg_boss01` を再利用する試遊版である。販売候補では第2ステージ専用の通常BGM・ボスBGMを追加し、各ステージの音楽的な識別性を確立する。
+第2〜第4ステージは現時点で `bg_stage01` と `bg_boss01` を再利用する試遊版である。販売候補では第2〜第4ステージごとの通常BGM・ボスBGMを追加し、各ステージの音楽的な識別性を確立する。
 
 実アセットは `assets/README.md` の配置規約に従い、販売ビルドに含める前に `THIRD_PARTY_NOTICES.md` へ権利情報を記録する。

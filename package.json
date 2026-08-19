@@ -10,8 +10,9 @@
   "type": "module",
   "scripts": {
     "check": "node --check src/main.js && node --check src/core/AudioManager.js && node --check src/core/InputManager.js && node --check src/core/SettingsStore.js && node --check src/content/GameDataLoader.js && node --check src/gameplay/GameWorld.js && node --check src/gameplay/Player.js && node --check src/gameplay/PatternRunner.js && node --check src/render/Renderer.js && node --check electron/main.cjs",
-    "test:smoke": "node tests/world-smoke.test.js astral-bloom stage_glassrain_01 && node tests/world-smoke.test.js astral-bloom stage_moonrain_02 && node tests/world-smoke.test.js demo-engine",
+    "test:smoke": "node tests/world-smoke.test.js astral-bloom stage_glassrain_01 && node tests/world-smoke.test.js astral-bloom stage_moonrain_02 && node tests/world-smoke.test.js astral-bloom stage_eclipse_03 && node tests/world-smoke.test.js astral-bloom stage_core_04 && node tests/world-smoke.test.js demo-engine",
     "test:stage-pack": "node tests/stage-pack.test.js",
+    "test:midboss": "node tests/midboss.test.js",
     "test:difficulty": "node tests/difficulty.test.js",
     "test:ending-flow": "node tests/ending-flow.test.js",
     "test:settings": "node tests/settings-store.test.js",

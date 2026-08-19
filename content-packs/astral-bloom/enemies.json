@@ -47,6 +47,124 @@
     },
     "patterns": ["gardener_aimed_seed", "gardener_vine_spiral"]
   },
+  "tessa_reave": {
+    "kind": "midboss",
+    "name": "冠鎌機テッサ・リーヴ",
+    "hp": 920,
+    "hitboxRadius": 38,
+    "collisionRadius": 46,
+    "score": 18500,
+    "color": "#cfe867",
+    "movement": {
+      "type": "hover",
+      "target": [710, 222],
+      "duration": 999
+    },
+    "phases": [
+      {
+        "name": "コロナ剪定",
+        "hp": 430,
+        "timeLimit": 42,
+        "patterns": ["tessa_corona_fan", "tessa_scythe_spiral"]
+      },
+      {
+        "name": "星蝕の鎌風",
+        "hp": 490,
+        "timeLimit": 48,
+        "patterns": ["tessa_leaf_ring", "tessa_scythe_spiral", "tessa_corona_fan"]
+      }
+    ]
+  },
+  "nox_reave": {
+    "kind": "midboss",
+    "name": "深層接続機ノクス・リーヴ",
+    "hp": 1120,
+    "hitboxRadius": 42,
+    "collisionRadius": 50,
+    "score": 23000,
+    "color": "#a7adff",
+    "movement": {
+      "type": "hover",
+      "target": [720, 310],
+      "duration": 999
+    },
+    "phases": [
+      {
+        "name": "分光接続",
+        "hp": 540,
+        "timeLimit": 46,
+        "patterns": ["nox_prism_ring", "nox_shard_aim"]
+      },
+      {
+        "name": "深層軌道",
+        "hp": 580,
+        "timeLimit": 54,
+        "patterns": ["nox_orbit_spiral", "nox_prism_ring", "nox_shard_aim"]
+      }
+    ]
+  },
+  "aurea_eclipse": {
+    "kind": "boss",
+    "name": "アウレア・エクリプス",
+    "hp": 2460,
+    "hitboxRadius": 58,
+    "collisionRadius": 68,
+    "score": 118000,
+    "color": "#eac45b",
+    "movement": {
+      "type": "hover",
+      "target": [728, 270],
+      "duration": 999
+    },
+    "phases": [
+      {
+        "name": "環樹の皆既",
+        "hp": 1180,
+        "timeLimit": 64,
+        "patterns": ["aurea_corona_crown", "aurea_leaf_aim"]
+      },
+      {
+        "name": "太陽花の審判",
+        "hp": 1280,
+        "timeLimit": 76,
+        "patterns": ["aurea_eclipse_spiral", "aurea_leaf_aim", "aurea_corona_crown"]
+      }
+    ]
+  },
+  "garden_heart": {
+    "kind": "boss",
+    "name": "ガーデン・ハート",
+    "hp": 3240,
+    "hitboxRadius": 64,
+    "collisionRadius": 74,
+    "score": 180000,
+    "color": "#e2d4ff",
+    "movement": {
+      "type": "hover",
+      "target": [720, 270],
+      "duration": 999
+    },
+    "phases": [
+      {
+        "name": "星核の呼吸",
+        "hp": 980,
+        "timeLimit": 64,
+        "patterns": ["heart_bloom_ring", "heart_shard_aim"]
+      },
+      {
+        "name": "分光花冠",
+        "hp": 1080,
+        "timeLimit": 72,
+        "patterns": ["heart_prism_spiral", "heart_bloom_ring", "heart_shard_aim"]
+      },
+      {
+        "name": "アストラル・ブルーム",
+        "hp": 1180,
+        "timeLimit": 86,
+        "patterns": ["heart_final_crown", "heart_prism_spiral", "heart_shard_aim"]
+      }
+    ]
+  },
   "lumen_archon": {
     "kind": "boss",
     "name": "ルーメン・アーコン",

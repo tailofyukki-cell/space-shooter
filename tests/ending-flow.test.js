@@ -19,7 +19,7 @@ const data = {
 
 assert.equal(manifest.campaign?.endingAfterFinalStage, true, '最終ステージ後にエンディングを表示するキャンペーン設定があること');
 const finalStage = stageList.at(-1);
-assert.equal(finalStage.id, 'stage_moonrain_02', '第2ステージが現在のキャンペーン終端であること');
+assert.equal(finalStage.id, 'stage_core_04', '第4ステージが現在のキャンペーン終端であること');
 
 const world = new GameWorld(data);
 world.setDifficulty('hard');

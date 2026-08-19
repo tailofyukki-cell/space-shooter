@@ -283,23 +283,27 @@ export class Renderer {
         crystal_gardener: [112, 90],
         flora_orbis: [230, 182],
         lumen_archon: [240, 196],
+        tessa_reave: [164, 128],
+        nox_reave: [172, 136],
+        aurea_eclipse: [270, 216],
+        garden_heart: [296, 238],
       };
-      const [width, height] = sizes[enemy.typeId ?? enemy.id] ?? (enemy.isBoss ? [230, 182] : [64, 52]);
-      if (!enemy.isBoss) ctx.rotate(Math.sin(enemy.age * 3) * 0.045);
-      ctx.shadowBlur = enemy.isBoss ? 17 : 9;
+      const [width, height] = sizes[enemy.typeId ?? enemy.id] ?? (enemy.isMajorEnemy ? [230, 182] : [64, 52]);
+      if (!enemy.isMajorEnemy) ctx.rotate(Math.sin(enemy.age * 3) * 0.045);
+      ctx.shadowBlur = enemy.isMajorEnemy ? 17 : 9;
       ctx.shadowColor = enemy.definition.color ?? '#ffffff';
       ctx.drawImage(sprite, -width / 2, -height / 2, width, height);
       ctx.restore();
       return;
     }
     const color = enemy.definition.color ?? '#ff7093';
-    ctx.shadowBlur = enemy.isBoss ? 24 : 12;
+    ctx.shadowBlur = enemy.isMajorEnemy ? 24 : 12;
     ctx.shadowColor = color;
     ctx.fillStyle = color;
     ctx.strokeStyle = '#fff3ff';
-    ctx.lineWidth = enemy.isBoss ? 3 : 2;
+    ctx.lineWidth = enemy.isMajorEnemy ? 3 : 2;
 
-    if (enemy.isBoss) {
+    if (enemy.isMajorEnemy) {
       ctx.beginPath();
       for (let index = 0; index < 8; index += 1) {
         const angle = -Math.PI / 2 + (TAU * index) / 8;
@@ -399,7 +403,7 @@ export class Renderer {
   }
 
   drawBossGauge(ctx, world) {
-    const boss = world.enemies.find((enemy) => enemy.isBoss);
+    const boss = world.enemies.find((enemy) => enemy.isBoss || enemy.isMidboss);
     if (!boss) return;
     const x = this.fieldX + 55;
     const y = 28;
@@ -409,10 +413,11 @@ export class Renderer {
     ctx.font = '600 15px system-ui, sans-serif';
     ctx.textAlign = 'center';
     ctx.fillStyle = '#f6dbff';
-    ctx.fillText(boss.definition.name ?? 'BOSS', this.display.width / 2, y - 8);
+    const designation = boss.isMidboss ? 'SUB BOSS // ' : '';
+    ctx.fillText(`${designation}${boss.definition.name ?? 'BOSS'}`, this.display.width / 2, y - 8);
     ctx.fillStyle = 'rgba(10, 7, 29, 0.82)';
     ctx.fillRect(x, y, width, 11);
-    ctx.fillStyle = '#d67cff';
+    ctx.fillStyle = boss.isMidboss ? '#ffd66d' : '#d67cff';
     ctx.fillRect(x, y, width * Math.max(0, ratio), 11);
     ctx.strokeStyle = '#ffffff';
     ctx.lineWidth = 1;

@@ -3,7 +3,7 @@ import { InputManager } from './core/InputManager.js';
 import { SettingsStore } from './core/SettingsStore.js';
 import { GameDataLoader } from './content/GameDataLoader.js';
 import { GameWorld } from './gameplay/GameWorld.js';
-import { Renderer } from './render/Renderer.js?v=astral-bomb-07';
+import { Renderer } from './render/Renderer.js?v=astral-stage34-midboss-01';
 
 const STEP_SECONDS = 1 / 60;
 const MAX_FRAME_SECONDS = 0.12;
@@ -247,6 +247,7 @@ async function bootstrap() {
     world.on('bomb', (payload) => renderer.startBomb(payload));
     world.on('graze', ({ x, y }) => renderer.burst(x, y, { color: '#c5e7ff', count: 3, power: 34 }));
     world.on('phaseChange', ({ phase }) => announce(phase?.name ?? 'PHASE CHANGE'));
+    world.on('midbossStart', ({ midboss }) => announce(`SUB BOSS // ${midboss?.definition?.name ?? 'UNKNOWN'}`));
     world.on('music', ({ id }) => audio.playMusic(id));
     world.on('sound', ({ id, volume, duckMusic = false }) => audio.playEffect(id, { volume, duckMusic }));
     world.on('stageClear', ({ stage }) => {

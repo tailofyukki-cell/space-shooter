@@ -82,5 +82,29 @@
     "damage": 1,
     "cancelable": true,
     "graze": true
+  },
+  "corona_leaf": {
+    "team": "enemy",
+    "shape": "orb",
+    "radius": 10,
+    "hitboxRadius": 4,
+    "color": "#bde95c",
+    "glowColor": "#f3ffc2",
+    "speed": 176,
+    "damage": 1,
+    "cancelable": true,
+    "graze": true
+  },
+  "starlight_shard": {
+    "team": "enemy",
+    "shape": "needle",
+    "radius": 16,
+    "hitboxRadius": 4,
+    "color": "#d6c7ff",
+    "glowColor": "#f4eeff",
+    "speed": 226,
+    "damage": 1,
+    "cancelable": true,
+    "graze": true
   }
 }

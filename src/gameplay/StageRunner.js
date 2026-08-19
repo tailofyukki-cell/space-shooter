@@ -48,6 +48,9 @@ export class StageRunner {
   execute(event, world) {
     if (event.type === 'spawn') {
       world.spawnEnemy(event.enemy, event.x, event.y);
+    } else if (event.type === 'midboss') {
+      const midboss = world.spawnEnemy(event.enemy, event.x, event.y);
+      world.emit('midbossStart', { midboss });
     } else if (event.type === 'boss') {
       this.boss = world.spawnEnemy(event.enemy, event.x, event.y);
       world.emit('bossStart', { boss: this.boss });

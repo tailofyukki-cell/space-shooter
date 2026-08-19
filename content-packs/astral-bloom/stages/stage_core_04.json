@@ -1,0 +1,34 @@
+{
+  "id": "stage_core_04",
+  "title": "STAGE 04 — アストラル・ブルーム中枢",
+  "subtitle": "Astral Core",
+  "music": "bg_stage01",
+  "background": {
+    "type": "astralCore",
+    "primaryColor": "#111133",
+    "secondaryColor": "#4a3b87",
+    "scrollSpeed": 52,
+    "flow": "rightToLeft"
+  },
+  "timeline": [
+    {"at": 0.8, "type": "announce", "textKey": "stage4.begin"},
+    {"at": 2.0, "type": "spawn", "enemy": "petal_wisp", "x": 1010, "y": 118},
+    {"at": 2.0, "type": "spawn", "enemy": "petal_wisp", "x": 1010, "y": 422},
+    {"at": 4.0, "type": "spawn", "enemy": "pollen_scout", "x": 1010, "y": 270},
+    {"at": 8.2, "type": "announce", "textKey": "stage4.coreSignal"},
+    {"at": 9.4, "type": "spawn", "enemy": "crystal_gardener", "x": 1025, "y": 190},
+    {"at": 14.5, "type": "spawn", "enemy": "crystal_gardener", "x": 1025, "y": 350},
+    {"at": 20.0, "type": "spawn", "enemy": "pollen_scout", "x": 1010, "y": 104},
+    {"at": 20.0, "type": "spawn", "enemy": "pollen_scout", "x": 1010, "y": 436},
+    {"at": 27.5, "type": "announce", "textKey": "stage4.noxDetected"},
+    {"at": 29.2, "type": "midboss", "enemy": "nox_reave", "x": 1045, "y": 310},
+    {"at": 48.0, "type": "announce", "textKey": "stage4.heartAwakens"},
+    {"at": 49.0, "type": "spawn", "enemy": "petal_wisp", "x": 1010, "y": 156},
+    {"at": 49.0, "type": "spawn", "enemy": "petal_wisp", "x": 1010, "y": 384},
+    {"at": 54.0, "type": "spawn", "enemy": "crystal_gardener", "x": 1025, "y": 270},
+    {"at": 62.0, "type": "announce", "textKey": "stage4.gardenHeartDetected"},
+    {"at": 64.0, "type": "music", "track": "bg_boss01"},
+    {"at": 66.0, "type": "boss", "enemy": "garden_heart", "x": 1055, "y": 270}
+  ],
+  "clear": {"type": "bossDefeat"}
+}

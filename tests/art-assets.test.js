@@ -26,12 +26,12 @@ for (const relativePath of references) {
 
 assert.deepEqual(
   Object.keys(stageBackgrounds).sort(),
-  ['stage_glassrain_01', 'stage_moonrain_02'],
+  ['stage_core_04', 'stage_eclipse_03', 'stage_glassrain_01', 'stage_moonrain_02'],
   '登録済みの各ステージに専用背景が定義されていること',
 );
 assert.deepEqual(
   Object.keys(manifest.visuals.sprites).sort(),
-  ['crystal_gardener', 'flora_orbis', 'lumen_archon', 'petal_wisp', 'player', 'pollen_scout'],
+  ['aurea_eclipse', 'crystal_gardener', 'flora_orbis', 'garden_heart', 'lumen_archon', 'nox_reave', 'petal_wisp', 'player', 'pollen_scout', 'tessa_reave'],
   '複数ステージの実アートが自機・通常敵・各ボスを網羅すること',
 );
 

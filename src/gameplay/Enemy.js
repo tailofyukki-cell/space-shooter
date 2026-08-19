@@ -18,7 +18,7 @@ export class Enemy {
     this.phaseIndex = 0;
     this.phaseTimer = 0;
     this.phaseChanged = false;
-    const firstPhase = definition.kind === 'boss' ? definition.phases?.[0] : null;
+    const firstPhase = this.isMajorEnemy ? definition.phases?.[0] : null;
     this.hp = firstPhase?.hp ?? definition.hp;
     this.maxHp = firstPhase?.hp ?? definition.hp;
     this.hasEntered = false;
@@ -75,7 +75,7 @@ export class Enemy {
     if (this.hp > 0) return false;
 
     const nextPhaseIndex = this.phaseIndex + 1;
-    const nextPhase = this.isBoss ? this.definition.phases?.[nextPhaseIndex] : null;
+    const nextPhase = this.isMajorEnemy ? this.definition.phases?.[nextPhaseIndex] : null;
     if (nextPhase) {
       this.phaseIndex = nextPhaseIndex;
       this.phaseTimer = 0;
@@ -95,6 +95,18 @@ export class Enemy {
     return this.definition.kind === 'boss';
   }
 
+  get isMidboss() {
+    return this.definition.kind === 'midboss';
+  }
+
+  get isMajorEnemy() {
+    return this.isBoss || this.isMidboss;
+  }
+
+  get requiresEntry() {
+    return this.isMajorEnemy;
+  }
+
   get hitboxRadius() {
     return this.definition.hitboxRadius ?? 18;
   }
@@ -104,7 +116,7 @@ export class Enemy {
   }
 
   get activePatterns() {
-    if (!this.isBoss) return this.definition.patterns ?? [];
+    if (!this.isMajorEnemy) return this.definition.patterns ?? [];
     return this.definition.phases?.[this.phaseIndex]?.patterns ?? [];
   }
 }

@@ -222,5 +222,70 @@
         "sound": "se_enemy_shot"
       }
     ]
+  },
+  "tessa_corona_fan": {
+    "loop": true,
+    "duration": 4.7,
+    "events": [{"at": 0.55, "repeat": 5, "interval": 0.72, "action": "fan", "bullet": "corona_leaf", "count": 5, "angle": 180, "spread": 54, "speed": 174, "sound": "se_enemy_shot"}]
+  },
+  "tessa_scythe_spiral": {
+    "loop": true,
+    "duration": 5.1,
+    "events": [{"at": 0.35, "repeat": 22, "interval": 0.18, "action": "spiral", "bullet": "vine_needle", "count": 2, "angle": 180, "rotation": 16, "speed": 164, "sound": "se_enemy_shot"}]
+  },
+  "tessa_leaf_ring": {
+    "loop": true,
+    "duration": 5.5,
+    "events": [{"at": 0.85, "repeat": 4, "interval": 1.1, "action": "ring", "bullet": "corona_leaf", "count": 14, "angle": 0, "speed": 144, "sound": "se_enemy_shot"}]
+  },
+  "nox_prism_ring": {
+    "loop": true,
+    "duration": 5.0,
+    "events": [{"at": 0.75, "repeat": 4, "interval": 1.04, "action": "ring", "bullet": "starlight_shard", "count": 14, "angle": 0, "speed": 152, "sound": "se_enemy_shot"}]
+  },
+  "nox_shard_aim": {
+    "loop": true,
+    "duration": 4.8,
+    "events": [{"at": 0.6, "repeat": 5, "interval": 0.72, "action": "fan", "bullet": "starlight_shard", "count": 5, "aimAtPlayer": true, "spread": 32, "speed": 214, "sound": "se_enemy_shot"}]
+  },
+  "nox_orbit_spiral": {
+    "loop": true,
+    "duration": 5.8,
+    "events": [{"at": 0.32, "repeat": 26, "interval": 0.16, "action": "spiral", "bullet": "core_bloom", "count": 2, "angle": 180, "rotation": -15, "speed": 168, "sound": "se_enemy_shot"}]
+  },
+  "aurea_corona_crown": {
+    "loop": true,
+    "duration": 5.5,
+    "events": [{"at": 0.42, "repeat": 25, "interval": 0.17, "action": "spiral", "bullet": "corona_leaf", "count": 2, "angle": 180, "rotation": 13, "speed": 178, "sound": "se_enemy_shot"}]
+  },
+  "aurea_leaf_aim": {
+    "loop": true,
+    "duration": 4.9,
+    "events": [{"at": 0.72, "repeat": 5, "interval": 0.74, "action": "fan", "bullet": "corona_leaf", "count": 6, "aimAtPlayer": true, "spread": 42, "speed": 202, "sound": "se_enemy_shot"}]
+  },
+  "aurea_eclipse_spiral": {
+    "loop": true,
+    "duration": 6.2,
+    "events": [{"at": 0.28, "repeat": 30, "interval": 0.14, "action": "spiral", "bullet": "starlight_shard", "count": 2, "angle": 180, "rotation": -14, "speed": 192, "sound": "se_enemy_shot"}]
+  },
+  "heart_bloom_ring": {
+    "loop": true,
+    "duration": 5.2,
+    "events": [{"at": 0.72, "repeat": 4, "interval": 1.02, "action": "ring", "bullet": "core_bloom", "count": 16, "angle": 0, "speed": 156, "sound": "se_enemy_shot"}]
+  },
+  "heart_shard_aim": {
+    "loop": true,
+    "duration": 4.7,
+    "events": [{"at": 0.56, "repeat": 5, "interval": 0.7, "action": "fan", "bullet": "starlight_shard", "count": 6, "aimAtPlayer": true, "spread": 46, "speed": 216, "sound": "se_enemy_shot"}]
+  },
+  "heart_prism_spiral": {
+    "loop": true,
+    "duration": 6.0,
+    "events": [{"at": 0.3, "repeat": 30, "interval": 0.14, "action": "spiral", "bullet": "starlight_shard", "count": 2, "angle": 180, "rotation": 15, "speed": 194, "sound": "se_enemy_shot"}]
+  },
+  "heart_final_crown": {
+    "loop": true,
+    "duration": 6.6,
+    "events": [{"at": 0.4, "repeat": 32, "interval": 0.13, "action": "spiral", "bullet": "core_bloom", "count": 3, "angle": 180, "rotation": -12, "speed": 182, "sound": "se_enemy_shot"}]
   }
 }
