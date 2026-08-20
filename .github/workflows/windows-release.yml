@@ -36,6 +36,10 @@ jobs:
           pnpm run check
           pnpm run test:smoke
           pnpm run test:settings
+          pnpm run test:campaign-transition
+          pnpm run test:ending-flow
+          pnpm run test:art-assets
+          pnpm run test:audio-assets
 
       - name: Build Windows installer and portable edition
         run: pnpm run build:win
@@ -43,7 +47,7 @@ jobs:
       - name: Upload Windows release candidate
         uses: actions/upload-artifact@v4
         with:
-          name: Danmaku-Engine-Demo-Windows-x64
+          name: ASTRAL-BLOOM-Windows-x64
           path: |
             release/*-win-x64-setup.exe
             release/*-win-x64-portable.exe

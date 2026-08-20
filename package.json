@@ -1,11 +1,11 @@
 {
-  "name": "danmaku-engine-demo",
-  "version": "0.1.0",
+  "name": "astral-bloom",
+  "version": "0.5.0",
   "private": true,
-  "description": "Data-driven reusable danmaku shooting game framework",
-  "productName": "Danmaku Engine Demo",
-  "desktopName": "danmaku-engine-demo",
-  "author": "Manus AI",
+  "description": "ASTRAL BLOOM four-stage side-scrolling bullet hell campaign",
+  "productName": "ASTRAL BLOOM",
+  "desktopName": "astral-bloom",
+  "author": "tailofyukki-cell",
   "main": "electron/main.cjs",
   "type": "module",
   "scripts": {
@@ -28,9 +28,9 @@
     "build:linux": "electron-builder --linux AppImage --x64 --publish never"
   },
   "build": {
-    "appId": "com.tailofyukki.danmakuenginedemo",
-    "productName": "Danmaku Engine Demo",
-    "copyright": "Copyright © 2026 Manus AI",
+    "appId": "com.tailofyukki.astralbloom",
+    "productName": "ASTRAL BLOOM",
+    "copyright": "Copyright © 2026 tailofyukki-cell",
     "directories": {
       "output": "release"
     },
@@ -41,7 +41,9 @@
       "content-packs/**/*",
       "assets/**/*",
       "electron/**/*",
-      "package.json"
+      "package.json",
+      "LICENSE",
+      "THIRD_PARTY_NOTICES.md"
     ],
     "asar": true,
     "win": {

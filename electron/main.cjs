@@ -2,7 +2,7 @@ const { app, BrowserWindow, Menu, net, protocol, shell } = require('electron');
 const path = require('node:path');
 const { pathToFileURL } = require('node:url');
 
-const PRODUCT_NAME = 'Danmaku Engine Demo';
+const PRODUCT_NAME = 'ASTRAL BLOOM';
 const APP_ROOT = path.resolve(__dirname, '..');
 
 protocol.registerSchemesAsPrivileged([
